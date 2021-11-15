@@ -16,6 +16,14 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required:true
+    },
+    numt:{
+        type: String,
+        required: true
+    },
+    photoProfil:{
+        type: String,
+        required: true
     }
     
 })
