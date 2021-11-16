@@ -11,6 +11,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "generate-quiz": "^1.0.0",
+    "mongodb": "^4.1.4",
     "mongoose": "^6.0.12"
   },
   "devDependencies": {
