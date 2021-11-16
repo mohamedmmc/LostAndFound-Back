@@ -5,7 +5,7 @@ This application lets the user create an account, search for a service and even 
 Our application is name Khademni and is developped in Swift for The client and in node.js for the backend part with mongoDB as database  
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/320px-Node.js_logo.svg.png">
-
+<img src= "https://cdn.icon-icons.com/icons2/2415/PNG/512/mongodb_original_wordmark_logo_icon_146425.png">
 
 <h1 align="center"><project-name></h1>
 
