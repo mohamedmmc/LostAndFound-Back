@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "generate-quiz": "^1.0.0",
     "mongoose": "^6.0.12"
   },
   "devDependencies": {

@@ -19,4 +19,13 @@ app.use('/user',userRoute)
 const articleRoute = require('./routes/article')
 app.use('/article',articleRoute)
 
+const quizzRoute = require('./routes/quizz')
+app.use('/quizz',quizzRoute)
+
+const charityRoute = require('./routes/charity')
+app.use('/charity',charityRoute)
+
+const donationRoute = require('./routes/donation')
+app.use('/donation',donationRoute)
+
 app.listen(3000, () => console.log("Server Started"))
