@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# Lost&Found
- 
-=======
 # LostAndFound-Back
 Mini Projet IOS
 This project is a mobile application project designed for everybody which provides the easiest way to make searchs for public services.
@@ -57,4 +53,3 @@ For running the server file on you can use this command.
 - JavaScript
 - Node Express
 - NPM
->>>>>>> 0ba1841820a84d5a13c220f612a2a09264088cef
