@@ -3,7 +3,7 @@ const router = express.Router()
 const User = require('../models/user')
 const Bcrypt = require ('bcrypt')
 const jwt = require('jsonwebtoken')
-const multer = require('../middleware/multer-config')
+const multer = require('../Middleware/multer-config')
 
 //getting all
 router.get ('/', async (req,res) => {
@@ -21,13 +21,14 @@ router.get ('/:id',authentificateToken,getUserById,(req,res) => {
 //creating one
 router.post ('/',multer,async (req,res) => {
     const hashedPass = await Bcrypt.hash(req.body.password,10)
+    console.log(`${req.protocol}://${req.get('host')}/upload/${req.file.filename}`)
     const user = new User({
         nom: req.body.nom,
         prenom: req.body.prenom,
         email: req.body.email,
         password: hashedPass,
         numt: req.body.numt,
-        // photoProfil: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        photoProfil: `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`
     })
     try {
         const newUser = await user.save()
