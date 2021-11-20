@@ -20,8 +20,9 @@ router.get ('/:id',authentificateToken,getUserById,(req,res) => {
 })
 //creating one
 router.post ('/',multer,async (req,res) => {
+    await User.init();
+
     const hashedPass = await Bcrypt.hash(req.body.password,10)
-    console.log(`${req.protocol}://${req.get('host')}/upload/${req.file.filename}`)
     const user = new User({
         nom: req.body.nom,
         prenom: req.body.prenom,
@@ -30,6 +31,8 @@ router.post ('/',multer,async (req,res) => {
         numt: req.body.numt,
         photoProfil: `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`
     })
+
+    
     try {
         const newUser = await user.save()
         res.status(201).json(newUser)
@@ -69,6 +72,59 @@ router.delete ('/:id',getUserById,async (req,res) => {
         res.json({reponse : "Supprime avec succes"})
     } catch (error) {
         res.json({reponse : error.message})
+    }
+})
+
+
+router.post ('/testphoto',multer,async (req,res) => {
+    const user = new User({
+        photoProfil: `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`
+    })
+    try {
+        const newUser = await user.save()
+        res.send(req)
+    } catch (error) {
+        res.status(400).json({reponse: error.message})
+    }
+})
+
+//login Social media (mail only)
+router.post ('/login',getUserByMail,async(req,res)=>{
+    if (res.user == null){
+        return res.status(404).send("Utilisateur introuvable")
+    }
+    try {
+        const token = jwt.sign({username: res.user.email}, "SECRET")
+        if (token){
+            res.json({token: token,
+            user:res.user,
+            reponse:"good"})
+        }
+        
+        
+    } catch (error) {
+        res.status(400).json({reponse : "mdp incorrect"})
+    } 
+})
+
+
+//creating one Using Social Media
+router.post ('/FB',multer,async (req,res) => {
+    await User.init();
+
+    const user = new User({
+        nom: req.body.nom,
+        prenom: req.body.prenom,
+        email: req.body.email,
+        photoProfil: `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`
+    })
+
+    
+    try {
+        const newUser = await user.save()
+        res.status(201).json(newUser)
+    } catch (error) {
+        res.status(400).json({reponse: error.message})
     }
 })
 
