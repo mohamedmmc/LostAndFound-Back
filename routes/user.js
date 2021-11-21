@@ -215,7 +215,7 @@ router.post ('/login',getUserByMail,async(req,res)=>{
 
 
 //login Social media (mail only)
-router.post ('/login',getUserByMail,async(req,res)=>{
+router.post ('/Auth',getUserByMail,async(req,res)=>{
     if (res.user == null){
         return res.status(404).send("Utilisateur introuvable")
     }
@@ -235,32 +235,6 @@ router.post ('/login',getUserByMail,async(req,res)=>{
 
 
 
-//Login
-router.post ('/testmail',getUserByMail,mail,async(req,res)=>{
-    if (res.user == null){
-        return res.status(404).send("Utilisateur introuvable")
-    }
-    try {
-        if (await Bcrypt.compare(req.body.password,res.user.password)){
-        const token = jwt.sign({username: res.user.email}, "SECRET")
-        if (token){
-            res.json({token: token,
-            user:res.user,
-            reponse:"good"})
-        }
-        }else
-        res.json({
-            nom: res.user.nom,
-            prenom: res.user.prenom,
-            email: res.user.email,
-            password: hashedPass,
-            numt: res.user.numt
-        })
-        
-    } catch (error) {
-        res.status(400).json({reponse : "mdp incorrect"})
-    } 
-})
 
 
 async function getUserById(req,res,next){
