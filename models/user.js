@@ -17,13 +17,16 @@ const userSchema = new mongoose.Schema({
         type: String
     },
     numt:{
-        unique: true,
+        required:false,
         maxlength: 12,
         type: String
     },
     photoProfil:{
         type: String,
         required: false
+    },
+    isVerified: {
+        type: Boolean, default: false
     }
     
 })
