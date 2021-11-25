@@ -11,8 +11,8 @@ const Articlechema = new mongoose.Schema({
     },
     addresse: {
         type: String,
-        required: true
     },
+    photo:String,
     dateCreation: {
         type: String,
         required:true,

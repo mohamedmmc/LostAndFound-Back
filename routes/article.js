@@ -1,12 +1,19 @@
 const express = require('express')
 const router = express.Router()
 const Article = require('../models/article')
+const multer = require ('../middleware/multer-config')
 
 //getting all
 router.get ('/', async (req,res) => {
     try {
         const article = await Article.find()
-        res.json(article)
+        if (article.length>0){
+            res.json({
+                    articles: article})
+        }
+        else{
+            res.json({message:"nothing to show"})
+        }
     } catch (error) {
         res.status(500).json({message: error.message})
     }
@@ -16,11 +23,12 @@ router.get ('/:id',getArticle,(req,res) => {
     res.send(res.article.nom)
 })
 //creating one
-router.post ('/',async (req,res) => {
+router.post ('/',multer,async (req,res) => {
     const article = new Article({
         nom: req.body.nom,
         description: req.body.description,
         addresse: req.body.addresse,
+        //photo : `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`
     })
     try {
         const newArticle = await article.save()

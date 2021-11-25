@@ -46,7 +46,9 @@ router.post ('/',multer,async (req,res) => {
     }
 })
 //updating one
-router.patch ('/:id',getUserById,async (req,res) => {
+router.patch ('/:id',authentificateToken,getUserById,multer,async (req,res) => {
+
+    
     if (req.body.nom != null){
         res.user.nom = req.body.nom
     }
@@ -63,9 +65,17 @@ router.patch ('/:id',getUserById,async (req,res) => {
         const hashed = Bcrypt.hash(req.body.password)
         res.user.password =  hashed
     }
+
+    if (req.file.filename != null){
+        res.user.photoProfil =  `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`
+
+    }
+
+
     try {
         const updatedUser = await res.user.save()
-        res.json(updatedUser)
+        res.json({reponse:"updated",
+            user:updatedUser})
     } catch (error) {
         res.status(400).json({reponse : error.message})
     }
@@ -104,12 +114,19 @@ router.post ('/Social',multer,async (req,res) => {
         email: req.body.email,
         photoProfil: `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`
     })
+    const tokenJWT = jwt.sign({username: req.body.email}, "SECRET")
 
     
     try {
         const newUser = await user.save()
         var token = new Token({ email: user.email, token: crypto.randomBytes(16).toString('hex') });
         await token.save();
+        res.status(201).json({token:tokenJWT,
+            user:user,
+        reponse: "good"})
+} catch (error) {
+res.status(400).json({reponse: error.message})
+}
         var smtpTrans = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -140,11 +157,7 @@ router.post ('/Social',multer,async (req,res) => {
         // });
 
 
-        res.status(201).json({user:user,
-                            reponse: "good"})
-    } catch (error) {
-        res.status(400).json({reponse: error.message})
-    }
+   
 })
 
 router.get('/confirmation/:email/:token', async (req, res, next) => {
