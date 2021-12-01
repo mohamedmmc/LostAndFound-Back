@@ -28,7 +28,15 @@ const userSchema = new mongoose.Schema({
     },
     isVerified: {
         type: Boolean, default: false
-    }
+    }/*,
+    ratings:{
+        type: mongoose.Mixed, 
+        1: Number, 
+        2: Number,
+        3: Number,
+        4: Number,
+        5: Number,
+    default: {1:1, 2:1, 3:1, 4:1, 5:1}}*/
     
 })
 

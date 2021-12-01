@@ -6,7 +6,7 @@ const multer = require ('../middleware/multer-config')
 //getting all
 router.get ('/', async (req,res) => {
     try {
-        const article = await Article.find()
+        const article = await Article.find().populate('user')
         if (article.length>0){
             res.json({
                     articles: article})
@@ -28,17 +28,20 @@ router.post ('/',multer,async (req,res) => {
         nom: req.body.nom,
         description: req.body.description,
         addresse: req.body.addresse,
-        //photo : `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`
+        type: req.body.type,
+        photo : `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`,
+        user: req.body.user
     })
     try {
         const newArticle = await article.save()
-        res.status(201).json(newArticle)
+        const newnewArticle = await Article.findById(newArticle.id).populate('user')
+        res.status(201).json(newnewArticle)
     } catch (error) {
         res.status(400).json({message: error.message})
     }
 })
 //updating one
-router.patch ('/:id',getArticle,async (req,res) => {
+router.patch ('/:id',getArticle,multer,async (req,res) => {
     if (req.body.nom != null){
         res.article.nom = req.body.nom
     }
@@ -47,6 +50,9 @@ router.patch ('/:id',getArticle,async (req,res) => {
     }
     if (req.body.addresse != null){
         res.article.addresse = req.body.addresse
+    }
+    if (req.file.filename != null){
+        res.user.photoProfil =  `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`
     }
     res.article.dateModif = Date.now
     try {

@@ -12,6 +12,10 @@ const Articlechema = new mongoose.Schema({
     addresse: {
         type: String,
     },
+    type:{
+        type:String,
+        required:true
+    },
     photo:String,
     dateCreation: {
         type: String,
@@ -22,6 +26,10 @@ const Articlechema = new mongoose.Schema({
         type: String,
         required:true,
         default: Date.now
+    },
+    user:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
     }
     
 })
