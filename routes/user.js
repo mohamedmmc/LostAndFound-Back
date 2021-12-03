@@ -39,14 +39,16 @@ router.post ('/',multer,async (req,res) => {
     
     try {
         const newUser = await user.save()
-        res.status(201).json({user:newUser,
+        const tokenJWT = jwt.sign({username: req.body.email}, "SECRET")
+        res.status(201).json({token:tokenJWT,
+                            user:newUser,
                             reponse: "good"})
     } catch (error) {
         res.status(400).json({reponse: error.message})
     }
 })
 //updating one
-router.patch ('/:id',authentificateToken,getUserById,multer,async (req,res) => {
+router.patch ('/:id',getUserById,multer,async (req,res) => {
 
     
     if (req.body.nom != null){
@@ -61,10 +63,11 @@ router.patch ('/:id',authentificateToken,getUserById,multer,async (req,res) => {
     if (req.body.numt != null){
         res.user.numt = req.body.numt
     }
-    if (req.body.password != null){
+   /* if (await Bcrypt.compare(req.body.password,res.user.password)){
+    //if (req.body.password != res.body.password){
         const hashed = Bcrypt.hash(req.body.password)
         res.user.password =  hashed
-    }
+    }*/
 
     if (req.file.filename != null){
         res.user.photoProfil =  `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`
@@ -86,7 +89,7 @@ router.delete ('/:id',getUserById,async (req,res) => {
         await res.user.remove()
         res.json({reponse : "Supprime avec succes"})
     } catch (error) {
-        res.json({reponse : error.message})
+        res.json({erreur : error.message})
     }
 })
 
