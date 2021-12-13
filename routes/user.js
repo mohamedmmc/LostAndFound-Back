@@ -7,6 +7,9 @@ const multer = require('../Middleware/multer-config')
 const nodemailer = require("nodemailer");
 const Token = require('../models/Token');
 const crypto = require('crypto');
+const Article = require ('../models/article')
+const bcryptjs = require ('bcryptjs')
+const article = require('../models/article')
 
 
 //getting all
@@ -86,8 +89,17 @@ router.patch ('/:id',getUserById,multer,async (req,res) => {
 //deleting one
 router.delete ('/:id',getUserById,async (req,res) => {
     try {
-        await res.user.remove()
-        res.json({reponse : "Supprime avec succes"})
+        //get all user articles and delete them
+        const articles = await Article.find({ user: res.user.id });
+        console.log(articles)
+
+       for (i=0; i<articles.length;i++){
+            articles[i].remove()
+            
+        }
+        //delete the user
+         await res.user.remove()
+         res.json({reponse : "Supprime avec succes"})
     } catch (error) {
         res.json({erreur : error.message})
     }
@@ -139,7 +151,7 @@ res.status(400).json({reponse: error.message})
         });
 
 
-        var mailOptions = { from: 'fanart3a18@gmail.com', to: user.email, subject: 'Account Verification Link', text: 'Hello ' + user.nom + ',\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/user\/confirmation\/' + user.email + '\/' + token.token + '\n\nThank You!\n' };
+        var mailOptions = { from: 'fanart3a18@gmail.com', to: user.email, subject: 'Verification de compte', text: 'Bonjour/Bonsoir ' + user.nom + ',\n\n' + 'Pour verifier votre compte merci de cliquer sur le lien suivant: \nhttp:\/\/' + req.headers.host + '\/user\/confirmation\/' + user.email + '\/' + token.token + '\n\nMerci !\n' };
         smtpTrans.sendMail(mailOptions, function (err) {
             if (err) {
                 return res.status(500).send({ msg: 'Technical Issue!, Please click on resend for verify your Email.' });
@@ -334,6 +346,92 @@ router.get('/confirmation/:email/:token', async (req, res, next) => {
 
 });
 
+router.post('/forgotPassword',getUserByMail, (req, res, next) => {
+
+        // user is not found into database
+        if (!res.user) {
+            return res.status(400).send({ msg: 'We were unable to find a user with that email. Make sure your Email is correct!' });
+        } else {
+            var seq = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
+            var token = new Token({ email: res.user.email, token: seq });
+            token.save(function (err) {
+                if (err) {
+                    return res.status(500).send({ msg: err.message });
+                }
+
+            });
+
+            var smtpTrans = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'fanart3a18@gmail.com',
+                    pass: '3A18java123'
+                }
+            });
+
+            var mailOptions = {
+                from: 'fanart3a18@gmail.com', to: res.user.email, subject:
+                    'Mot de passe oubliè Lost And Found', text: 'Vous recevez cet email car vous (ou quelqu\'n d\'autre) a fait cette demande de mot de passe oubliè.\n\n' +
+                        'Merci de cliquer sur le lien suivant ou copier le sur votre navigateur pour completer le processus:\n\n' + 'Le code est :'+ token.token + '\n\n' +
+                        'http:\/\/' + req.headers.host + '\/user\/resetPassword\/' + res.user.email + '\/' + token.token
+                        + '\n\n Si vous n\'avez pas fait cette requete, veuillez ignorer ce message et votre mot de passe sera le méme.\n'
+            };
+            // Send email (use credintials of SendGrid)
+
+            //  var mailOptions = { from: 'no-reply@example.com', to: user.email, subject: 'Account Verification Link', text: 'Hello '+ user.name +',\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + user.email + '\/' + token.token + '\n\nThank You!\n' };
+            smtpTrans.sendMail(mailOptions, function (err) {
+                if (err) {
+                    return res.status(500).send({ msg: err });
+                }
+                else {
+                    return res.status(200).send({succes:true, 
+                        msg:'A reset password  email has been sent to ' + res.user.email + '. It will be expire after one day. If you not get verification Email click on resend token.',
+                        token: token.token
+                    })};
+
+            });
+
+        }
+
+    });
+
+
+router.post('/resetPassword/:email/:token' ,async (req, res, next) => {
+    Token.findOne({ token: req.params.token }, function (err, token) {
+        // token is not found into database i.e. token may have expired 
+        if (!token) {
+            return res.status(400).send({ msg: 'Your verification link may have expired. Please click on resend for verify your Email.' });
+        }
+        // if token is found then check valid user 
+        else {
+            User.findOne({email: req.params.email }, async function (err, user) {
+                // not valid user
+                if (!user) {
+                    return res.status(401).send({ msg: 'We were unable to find a user for this verification. Please SignUp!' });
+                } else {
+
+                    const salt = await Bcrypt.genSalt(10);
+                    user.password = await Bcrypt.hash(req.body.Password, salt);
+
+                    user.save(function (err) {
+                        // error occur
+                        if (err) {
+                            return res.status(500).send({ msg: err.message });
+                        }
+                        // account successfully verified
+                        else {
+                            return res.status(200).json({reponse:'Your password has been successfully reset'});
+                        }
+
+                    })
+
+                }
+
+            });
+        }});
+
+    });
+
 function mail (req,res,next){
     var smtpTrans = nodemailer.createTransport({
         service: 'gmail',
@@ -345,7 +443,6 @@ function mail (req,res,next){
 
 
     var mailOptions = { from: 'fanart3a18@gmail.com', to:"mohamedmelek.chtourou@esprit.tn", subject: 'Account Verification Link', text: 'Hello ' + "user.username" + ',\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/user\/confirmation\/' + "user.email" + '\/' + "token.token" + '\n\nThank You!\n' };
-    console.log(mailOptions)
     smtpTrans.sendMail(mailOptions, function (err) {
         if (err) {
             return res.status(500).send({ msg: 'Technical Issue!, Please click on resend for verify your Email.' });

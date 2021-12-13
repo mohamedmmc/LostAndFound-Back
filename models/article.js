@@ -9,9 +9,9 @@ const Articlechema = new mongoose.Schema({
         type: String,
         required: true
     },
-    addresse: {
-        type: String,
-    },
+    addresse: [{
+        type:Number
+    }],
     type:{
         type:String,
         required:true
