@@ -71,6 +71,9 @@ router.delete ('/:id',getArticle,async (req,res) => {
         res.json({message : error.message})
     }
 })
+router.get ('/myArticles/:id',getArticlesByUser,async (req,res) => {
+    res.json({articles:res.articles})
+})
 
 async function getArticle(req,res,next){
     let article
@@ -83,6 +86,21 @@ async function getArticle(req,res,next){
         return res.status(500).json({message: error.message})
     }
     res.article = article
+    next()
+}
+
+async function getArticlesByUser  (req,res,next){
+    let articles
+    try {
+        articles = await Article.find({ user: req.params.id }).populate('user')
+        if (articles == null){
+            res.json({message:"sans articles"})
+        }
+    } catch (error) {
+        res.json({message:error.message})
+
+    }
+    res.articles = articles
     next()
 }
 module.exports = router
