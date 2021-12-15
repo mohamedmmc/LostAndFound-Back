@@ -257,39 +257,31 @@ router.post ('/Social',multer,async (req,res) => {
             user:user,
         reponse: "good"})
 } catch (error) {
-res.status(400).json({reponse: error.message})
+    res.status(400).json({reponse: error.message})
 }
-        var smtpTrans = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'fanart3a18@gmail.com',
-                pass: '3A18java123'
-            }
-        });
-
-
-        var mailOptions = { from: 'fanart3a18@gmail.com', to: user.email, subject: 'Verification de compte', text: 'Bonjour/Bonsoir ' + user.nom + ',\n\n' + 'Pour verifier votre compte merci de cliquer sur le lien suivant: \nhttp:\/\/' + req.headers.host + '\/user\/confirmation\/' + user.email + '\/' + token.token + '\n\nMerci !\n' };
-        smtpTrans.sendMail(mailOptions, function (err) {
-            if (err) {
-                return res.status(500).send({ msg: 'Technical Issue!, Please click on resend for verify your Email.' });
-
-            }
-            return res.status(200)
-                .json(
-                    {
-                        msg: 'A verification email has been sent to ' + user.email +
-                            '. It will be expire after one day. If you not get verification Email click on resend token.',
-                        user: user
-                    });
-        });
-        // res.status(201).json({
-        //     success: true,
-        //     message: "User Created!",
-        //     user: user
+        // var smtpTrans = nodemailer.createTransport({
+        //     service: 'gmail',
+        //     auth: {
+        //         user: 'fanart3a18@gmail.com',
+        //         pass: '3A18java123'
+        //     }
         // });
 
 
-   
+        // var mailOptions = { from: 'fanart3a18@gmail.com', to: user.email, subject: 'Verification de compte', text: 'Bonjour/Bonsoir ' + user.nom + ',\n\n' + 'Pour verifier votre compte merci de cliquer sur le lien suivant: \nhttp:\/\/' + req.headers.host + '\/user\/confirmation\/' + user.email + '\/' + token.token + '\n\nMerci !\n' };
+        // smtpTrans.sendMail(mailOptions, function (err) {
+        //     if (err) {
+        //         return res.status(500).send({ msg: 'Technical Issue!, Please click on resend for verify your Email.' });
+
+        //     }
+        //     return res.status(200)
+        //         .json(
+        //             {
+        //                 msg: 'A verification email has been sent to ' + user.email +
+        //                     '. It will be expire after one day. If you not get verification Email click on resend token.',
+        //                 user: user
+        //             });
+        // });   
 })
 
 router.get('/confirmation/:email/:token', async (req, res, next) => {
