@@ -245,6 +245,7 @@ router.post ('/Social',multer,async (req,res) => {
         email: req.body.email,
         photoProfil: `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`
     })
+    console.log(user.photoProfil)
     const tokenJWT = jwt.sign({username: req.body.email}, "SECRET")
 
     
