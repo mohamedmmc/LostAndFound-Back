@@ -42,7 +42,11 @@ const options = {
 };
 const swaggerSpec = swaggerJSDoc(options);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.listen(3000, () => console.log("Server Started"))
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
+app.listen(port, () => console.log("Server Started"));
 const db = mongoose.connection
 
 db.on ("error", (error) => console.error(error))
