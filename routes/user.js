@@ -251,6 +251,8 @@ router.post ('/Social',multer,async (req,res) => {
         await token.save();
         cloudinary.v2.uploader.upload(req.file.filename, 
         function(error, result) {console.log(result, error)});   
+
+        
         var smtpTrans = nodemailer.createTransport({
             service: 'gmail',
             auth: {
