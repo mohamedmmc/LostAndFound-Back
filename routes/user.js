@@ -266,13 +266,6 @@ router.post ('/Social',multer,async (req,res) => {
                 return res.status(500).send({ msg: 'Technical Issue!, Please click on resend for verify your Email.' });
         
             }
-            return res.status(200)
-                .json(
-                    {
-                        msg: 'A verification email has been sent to ' + user.email +
-                            '. It will be expire after one day. If you not get verification Email click on resend token.',
-                        user: user
-                    });
         });   
         res.status(201).json({token:tokenJWT,
             user:user,
