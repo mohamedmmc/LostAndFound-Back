@@ -252,13 +252,7 @@ router.post ('/Social',multer,async (req,res) => {
 
     
     try {
-        const newUser = await user.save()
         var token = new Token({ email: user.email, token: crypto.randomBytes(16).toString('hex') });
-        await token.save();
-        
-} catch (error) {
-res.status(400).json({reponse: error.message})
-}
         var smtpTrans = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -274,10 +268,16 @@ res.status(400).json({reponse: error.message})
                 return res.status(500).send({ msg: 'Technical Issue!, Please click on resend for verify your Email.' });
 
             }
-            res.status(201).json({token:tokenJWT,
-                user:user,
-            reponse: "good"})
+            
         });
+        const newUser = await user.save()
+        res.status(201).json({token:tokenJWT,
+            user:user,
+        reponse: "good"})
+} catch (error) {
+res.status(400).json({reponse: error.message})
+}
+        
         // res.status(201).json({
         //     success: true,
         //     message: "User Created!",
