@@ -121,6 +121,7 @@ router.get ('/:id',authentificateToken,getUserById,(req,res) => {
 //creating one
 router.post ('/',multer,async (req,res) => {
     await User.init();
+    const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
 
     const hashedPass = await Bcrypt.hash(req.body.password,10)
     const user = new User({
@@ -129,7 +130,7 @@ router.post ('/',multer,async (req,res) => {
         email: req.body.email,
         password: hashedPass,
         numt: req.body.numt,
-        photoProfil: `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`
+        photoProfil: photoCloudinary.url
     })
 
     
@@ -166,8 +167,9 @@ router.patch ('/:id',getUserById,multer,async (req,res) => {
     }*/
 
     if (req.file.filename != null){
-        res.user.photoProfil =  `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`
+        const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
 
+        res.user.photoProfil =  photoCloudinary.url
     }
 
 
@@ -223,18 +225,6 @@ router.delete ('/:id',getUserById,async (req,res) => {
 })
 
 
-router.post ('/testphoto',multer,async (req,res) => {
-    const user = new User({
-        photoProfil: `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`
-    })
-    try {
-        const newUser = await user.save()
-        res.send(req)
-    } catch (error) {
-        res.status(400).json({reponse: error.message})
-    }
-})
-
 
 //creating one Using Social Media
 router.post ('/Social',multer,async (req,res) => {
@@ -265,8 +255,7 @@ router.post ('/Social',multer,async (req,res) => {
         var mailOptions = { from: 'fanart3a18@gmail.com', to: user.email, subject: 'Verification de compte', text: 'Bonjour/Bonsoir ' + user.nom + ',\n\n' + 'Pour verifier votre compte merci de cliquer sur le lien suivant: \nhttp:\/\/' + req.headers.host + '\/user\/confirmation\/' + user.email + '\/' + token.token + '\n\nMerci !\n' };
         smtpTrans.sendMail(mailOptions, function (err) {
             if (err) {
-                return res.status(500).send({ msg: 'Technical Issue!, Please click on resend for verify your Email.' });
-
+                res.status(500).send({ msg: 'Technical Issue!, Please click on resend for verify your Email.' });
             }
             
         });

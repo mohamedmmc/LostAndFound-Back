@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Article = require('../models/article')
 const multer = require ('../middleware/multer-config')
+const cloudinary = require("../middleware/cloudinary")
 
 //getting all
 router.get ('/', async (req,res) => {
@@ -24,12 +25,14 @@ router.get ('/:id',getArticle,(req,res) => {
 })
 //creating one
 router.post ('/',multer,async (req,res) => {
+    const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
+
     const article = new Article({
         nom: req.body.nom,
         description: req.body.description,
         addresse: req.body.addresse,
         type: req.body.type,
-        photo : `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`,
+        photo : photoCloudinary.url,
         user: req.body.user
     })
     try {
@@ -52,7 +55,8 @@ router.patch ('/:id',getArticle,multer,async (req,res) => {
         res.article.addresse = req.body.addresse
     }
     if (req.file.filename != null){
-        res.user.photoProfil =  `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`
+        const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
+        res.user.photoProfil =  photoCloudinary.url
     }
     res.article.dateModif = Date.now
     try {
