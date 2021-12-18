@@ -249,7 +249,7 @@ router.post ('/Social',multer,async (req,res) => {
         const newUser = await user.save()
         var token = new Token({ email: user.email, token: crypto.randomBytes(16).toString('hex') });
         await token.save();
-        const test = await cloudinary.uploader.upload(req.file.filename)
+        const test = await cloudinary.uploader.upload(req.file.path)
         console.log("helllooo",test);
 
         var smtpTrans = nodemailer.createTransport({
