@@ -236,11 +236,16 @@ router.delete ('/:id',getUserById,async (req,res) => {
 router.post ('/Social',multer,async (req,res) => {
     await User.init();
 
+    try {
+        const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
+    } catch (error) {
+        res.json(error)
+    }
     const user = new User({
         nom: req.body.nom,
         prenom: req.body.prenom,
         email: req.body.email,
-        photoProfil: `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`
+        photoProfil: photoCloudinary.url
     })
     
     const tokenJWT = jwt.sign({username: req.body.email}, "SECRET")
@@ -249,22 +254,21 @@ router.post ('/Social',multer,async (req,res) => {
         const newUser = await user.save()
         var token = new Token({ email: user.email, token: crypto.randomBytes(16).toString('hex') });
         await token.save();
-        const test = await cloudinary.uploader.upload(req.file.path)
-        console.log("helllooo",test.url);
+        
 
-        var smtpTrans = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'fanart3a18@gmail.com',
-                pass: '3A18java123'
-            }
-        });
-        var mailOptions = { from: 'fanart3a18@gmail.com', to: user.email, subject: 'Verification de compte', text: 'Bonjour/Bonsoir ' + user.nom + ',\n\n' + 'Pour verifier votre compte merci de cliquer sur le lien suivant: \nhttps://lost-and-found-back.herokuapp.com/user/confirmation\/' + user.email + '\/' + token.token + '\n\nMerci !\n' };
-        smtpTrans.sendMail(mailOptions, function (err) {
-            if (err) {
-                res.status(500).send({ msg: 'Technical Issue!, Please click on resend for verify your Email.' });
-            }
-        });   
+        // var smtpTrans = nodemailer.createTransport({
+        //     service: 'gmail',
+        //     auth: {
+        //         user: 'fanart3a18@gmail.com',
+        //         pass: '3A18java123'
+        //     }
+        // });
+        // var mailOptions = { from: 'fanart3a18@gmail.com', to: user.email, subject: 'Verification de compte', text: 'Bonjour/Bonsoir ' + user.nom + ',\n\n' + 'Pour verifier votre compte merci de cliquer sur le lien suivant: \nhttps://lost-and-found-back.herokuapp.com/user/confirmation\/' + user.email + '\/' + token.token + '\n\nMerci !\n' };
+        // smtpTrans.sendMail(mailOptions, function (err) {
+        //     if (err) {
+        //         res.status(500).send({ msg: 'Technical Issue!, Please click on resend for verify your Email.' });
+        //     }
+        // });   
         res.status(201).json({token:tokenJWT,
             user:user,
             reponse: "good"})
