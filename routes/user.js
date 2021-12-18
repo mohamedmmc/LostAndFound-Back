@@ -4,19 +4,15 @@ const User = require('../models/user')
 const Bcrypt = require ('bcrypt')
 const jwt = require('jsonwebtoken')
 const multer = require('../middleware/multer-config')
+const cloudinary = require ("../middleware/cloudinary")
 const nodemailer = require("nodemailer");
 const Token = require('../models/Token');
 const crypto = require('crypto');
 const Article = require ('../models/article')
 const bcryptjs = require ('bcryptjs')
 const article = require('../models/article')
-var cloudinary = require('cloudinary')
 
-cloudinary.config({ 
-    cloud_name: 'dy05x9auh', 
-    api_key: '277832671356454', 
-    api_secret: '34Q-FOG18ZxvtQfCih1BYgy8u84' 
-  });
+
 //....................................
 //add User
 
@@ -138,11 +134,8 @@ router.post ('/',multer,async (req,res) => {
 
     
     try {
-        
         const newUser = await user.save()
         const tokenJWT = jwt.sign({username: req.body.email}, "SECRET")
-        cloudinary.v2.uploader.upload(req.file.filename, 
-            function(error, result) {console.log(result, error)});    
         res.status(201).json({token:tokenJWT,
                             user:newUser,
                             reponse: "good"})
@@ -180,8 +173,6 @@ router.patch ('/:id',getUserById,multer,async (req,res) => {
 
     try {
         const updatedUser = await res.user.save()
-        cloudinary.v2.uploader.upload(req.file.filename, 
-            function(error, result) {console.log(result, error)});    
         res.json({reponse:"updated",
             user:updatedUser})
     } catch (error) {
@@ -232,26 +223,44 @@ router.delete ('/:id',getUserById,async (req,res) => {
 })
 
 
+router.post ('/testphoto',multer,async (req,res) => {
+    const user = new User({
+        photoProfil: `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`
+    })
+    try {
+        const newUser = await user.save()
+        res.send(req)
+    } catch (error) {
+        res.status(400).json({reponse: error.message})
+    }
+})
+
+
 //creating one Using Social Media
 router.post ('/Social',multer,async (req,res) => {
     await User.init();
 
     const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
+    
     const user = new User({
         nom: req.body.nom,
         prenom: req.body.prenom,
         email: req.body.email,
         photoProfil: photoCloudinary.url
     })
-    
     const tokenJWT = jwt.sign({username: req.body.email}, "SECRET")
+
     
     try {
         const newUser = await user.save()
         var token = new Token({ email: user.email, token: crypto.randomBytes(16).toString('hex') });
         await token.save();
-        
-
+        res.status(201).json({token:tokenJWT,
+            user:user,
+        reponse: "good"})
+} catch (error) {
+res.status(400).json({reponse: error.message})
+}
         var smtpTrans = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -259,19 +268,30 @@ router.post ('/Social',multer,async (req,res) => {
                 pass: '3A18java123'
             }
         });
-        var mailOptions = { from: 'fanart3a18@gmail.com', to: user.email, subject: 'Verification de compte', text: 'Bonjour/Bonsoir ' + user.nom + ',\n\n' + 'Pour verifier votre compte merci de cliquer sur le lien suivant: \nhttps://lost-and-found-back.herokuapp.com/user/confirmation\/' + user.email + '\/' + token.token + '\n\nMerci !\n' };
+
+
+        var mailOptions = { from: 'fanart3a18@gmail.com', to: user.email, subject: 'Verification de compte', text: 'Bonjour/Bonsoir ' + user.nom + ',\n\n' + 'Pour verifier votre compte merci de cliquer sur le lien suivant: \nhttp:\/\/' + req.headers.host + '\/user\/confirmation\/' + user.email + '\/' + token.token + '\n\nMerci !\n' };
         smtpTrans.sendMail(mailOptions, function (err) {
             if (err) {
-                res.status(500).send({ msg: 'Technical Issue!, Please click on resend for verify your Email.' });
-            }
-        });   
-        res.status(201).json({token:tokenJWT,
-            user:user,
-            reponse: "good"})
-} catch (error) {
-    res.status(400).json({reponse: error.message})
-}
+                return res.status(500).send({ msg: 'Technical Issue!, Please click on resend for verify your Email.' });
 
+            }
+            return res.status(200)
+                .json(
+                    {
+                        msg: 'A verification email has been sent to ' + user.email +
+                            '. It will be expire after one day. If you not get verification Email click on resend token.',
+                        user: user
+                    });
+        });
+        // res.status(201).json({
+        //     success: true,
+        //     message: "User Created!",
+        //     user: user
+        // });
+
+
+   
 })
 
 router.get('/confirmation/:email/:token', async (req, res, next) => {
