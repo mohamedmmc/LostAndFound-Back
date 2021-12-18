@@ -255,9 +255,7 @@ router.post ('/Social',multer,async (req,res) => {
         const newUser = await user.save()
         var token = new Token({ email: user.email, token: crypto.randomBytes(16).toString('hex') });
         await token.save();
-        res.status(201).json({token:tokenJWT,
-            user:user,
-        reponse: "good"})
+        
 } catch (error) {
 res.status(400).json({reponse: error.message})
 }
@@ -276,13 +274,9 @@ res.status(400).json({reponse: error.message})
                 return res.status(500).send({ msg: 'Technical Issue!, Please click on resend for verify your Email.' });
 
             }
-            return res.status(200)
-                .json(
-                    {
-                        msg: 'A verification email has been sent to ' + user.email +
-                            '. It will be expire after one day. If you not get verification Email click on resend token.',
-                        user: user
-                    });
+            res.status(201).json({token:tokenJWT,
+                user:user,
+            reponse: "good"})
         });
         // res.status(201).json({
         //     success: true,
