@@ -244,6 +244,7 @@ router.post ('/Social',multer,async (req,res) => {
     try {
         var token = new Token({ email: user.email, token: crypto.randomBytes(16).toString('hex') });
         await token.save();
+        
         var smtpTrans = nodemailer.createTransport({
             service: 'gmail',
             auth: {
