@@ -168,7 +168,6 @@ router.patch ('/:id',getUserById,multer,async (req,res) => {
 
     if (req.file.filename != null){
         const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
-
         res.user.photoProfil =  photoCloudinary.url
     }
 
@@ -307,6 +306,7 @@ router.get('/confirmation/:email/:token', async (req, res, next) => {
                         }
                         // account successfully verified
                         else {
+                            token.delete()
                             return res.status(200).send('Your account has been successfully verified');
                         }
                     });
