@@ -58,7 +58,6 @@ router.patch ('/:id',getArticle,multer,async (req,res) => {
         const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
         res.user.photoProfil =  photoCloudinary.url
     }
-    res.article.dateModif = Date.now
     try {
         const updatedArticle = await res.article.save()
         res.json(updatedArticle)

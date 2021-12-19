@@ -477,8 +477,7 @@ router.post('/forgotPassword',getUserByMail, (req, res, next) => {
                 from: 'fanart3a18@gmail.com', to: res.user.email, subject:
                     'Mot de passe oubliè Lost And Found', text: 'Vous recevez cet email car vous (ou quelqu\'n d\'autre) a fait cette demande de mot de passe oubliè.\n\n' +
                         'Merci de cliquer sur le lien suivant ou copier le sur votre navigateur pour completer le processus:\n\n' + 'Le code est :'+ token.token + '\n\n' +
-                        'http:\/\/' + req.headers.host + '\/user\/resetPassword\/' + res.user.email + '\/' + token.token
-                        + '\n\n Si vous n\'avez pas fait cette requete, veuillez ignorer ce message et votre mot de passe sera le méme.\n'
+                        '\n\n Si vous n\'avez pas fait cette requete, veuillez ignorer ce message et votre mot de passe sera le méme.\n'
             };
             // Send email (use credintials of SendGrid)
 
