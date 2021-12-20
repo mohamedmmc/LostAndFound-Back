@@ -282,6 +282,7 @@ router.get('/resendConfirmation/:id',getUserById,async (req,res,next) =>{
 
     try {
         const token = await Token.findOne({ email: token.email, email: req.params.email })
+        console.log(token);
     } catch (error) {
         console.log(error);
     }
