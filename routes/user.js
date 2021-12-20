@@ -278,6 +278,17 @@ res.status(400).json({reponse: error.message})
    
 })
 
+router.get('/resendConfirmation',getUserById,async (req,res,next) =>{
+
+    try {
+        const token = await Token.findOne({ email: token.email, email: req.params.email })
+    } catch (error) {
+        console.log(error);
+    }
+
+})
+
+
 router.get('/confirmation/:email/:token', async (req, res, next) => {
     Token.findOne({ token: req.params.token }, function (err, token) {
         // token is not found into database i.e. token may have expired 
