@@ -278,7 +278,7 @@ res.status(400).json({reponse: error.message})
    
 })
 
-router.get('/resendConfirmation/:id',getUserById,async (req,res,next) =>{
+router.post('/resendConfirmation/:id',getUserById,async (req,res,next) =>{
 
     try {
         const token = await Token.findOne({email: req.body.email })
