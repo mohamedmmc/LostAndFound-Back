@@ -60,7 +60,8 @@ router.patch ('/:id',getArticle,multer,async (req,res) => {
     }
     try {
         const updatedArticle = await res.article.save()
-        res.json(updatedArticle)
+        const newnewArticle = await Article.findById(newArticle.id).populate('user')
+        res.json(newnewArticle)
     } catch (error) {
         res.status(400).json({message : error.message})
     }
