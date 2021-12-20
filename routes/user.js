@@ -298,7 +298,7 @@ router.get('/resendConfirmation/:id',getUserById,async (req,res,next) =>{
             }
             
         });
-        res.json({message:"done"})
+        res.json({message:"ok"})
     } catch (error) {
         console.log(error);
     }
