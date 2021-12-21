@@ -278,6 +278,10 @@ res.status(400).json({reponse: error.message})
    
 })
 
+router.get('/test/ok',async (req,res) =>{
+    res.render("ok")
+})
+
 router.post('/resendConfirmation/:id',getUserById,async (req,res,next) =>{
 
     try {
