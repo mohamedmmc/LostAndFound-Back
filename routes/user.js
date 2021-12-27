@@ -672,7 +672,8 @@ router.get('/confirmation/:email/:token', async (req, res, next) => {
                                 
                                 </html>
 
-                                `                        )}
+                                `                        )
+                            }
                     });
                 }
             });
