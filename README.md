@@ -1,7 +1,7 @@
 # LostAndFound-Back
 Mini Projet IOS
 This project is a mobile application project designed for everybody which provides the easiest way to make searchs for public services.
-This application lets the user create an account, search for a lost item and even pay the one who provides the service online. Our application does also create the ability to add a found item and also to put all lost object withing 6 months to donations for charity.
+This application lets the user create an account, search for a lost item and even pay the one who provides the service online. Our application does also create the ability to add a found item and also to put all lost object withing 6 months to donations for question.
 Our application is name Lost & Found and is developped in Swift for The client and in node.js for the backend part with mongoDB as database  
 
 

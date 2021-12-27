@@ -65,8 +65,8 @@ app.use('/article',articleRoute)
 const quizzRoute = require('./routes/quizz')
 app.use('/quizz',quizzRoute)
 
-const charityRoute = require('./routes/charity')
-app.use('/charity',charityRoute)
+const questionRoute = require('./routes/question')
+app.use('/question',questionRoute)
 
 const donationRoute = require('./routes/donation')
 app.use('/donation',donationRoute)

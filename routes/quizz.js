@@ -1,11 +1,13 @@
 const express = require('express')
 const router = express.Router()
 const Article = require('../models/quizz')
+const Quizz = require('../models/quizz')
+const Question = require ('../models/question')
 
 //getting all
 router.get ('/', async (req,res) => {
     try {
-        const quizz = await Quizz.find()
+        const quizz = await Quizz.find().populate('article')
         res.json(quizz)
     } catch (error) {
         res.status(500).json({message: error.message})
@@ -13,15 +15,14 @@ router.get ('/', async (req,res) => {
 }) 
 //getting one
 router.get ('/:id',getQuizz,(req,res) => {
-    res.send(res.quizz.nom)
+    res.send(res.quizz)
 })
 //creating one
 router.post ('/',async (req,res) => {
+    
     const quizz = new Quizz({
-        nom: req.body.nom,
-        type_article: req.body.type_article,
-        description: req.body.description,
-        dateCreation: req.body.dateCreation,
+        article: req.body.article,
+        question: req.body.question
     })
     try {
         const newQuizz = await quizz.save()

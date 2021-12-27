@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 
-const Charitychema = new mongoose.Schema({
+const questionchema = new mongoose.Schema({
     nom: {
         type: String,
         required: true
     },
-    type_charity: {
+    type_question: {
         type: String,
         required: true
     },
@@ -21,4 +21,4 @@ const Charitychema = new mongoose.Schema({
     
 })
 
-module.exports = mongoose.model('charity',Charitychema)
+module.exports = mongoose.model('question',questionchema)

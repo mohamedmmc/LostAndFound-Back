@@ -1,11 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const question = require('../models/question')
+const Question = require('../models/question')
+const Quizz = require('../models/quizz.js')
 
 //getting all
 router.get ('/', async (req,res) => {
     try {
-        const question = await question.find()
+        const question = await Question.find()
         res.json(question)
     } catch (error) {
         res.status(500).json({message: error.message})
@@ -19,15 +20,23 @@ router.get ('/:id',getquestion,(req,res) => {
 router.post ('/',async (req,res) => {
     console.log(req.body)
 
-    const question = new question({
-        nom: req.body.nom,
-        type_question: req.body.type_question,
-        description: req.body.description,
+    const question = new Question({
+        titre: req.body.question
     })
     try {
-        console.log(question)
-        const newquestion = await question.save()
-        res.status(201).json(newquestion)
+        const newquestion = await Question.save()
+        console.log("la question ",question)
+
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+    const quizz = new Quizz({
+        question: newquestion.id,
+        article: req.body.article
+    })
+    try {
+        const newQuizz = await Quizz.save()
+        res.status(201).json(newQuizz)
     } catch (error) {
         res.status(400).json({message: error.message})
     }
@@ -64,7 +73,7 @@ router.delete ('/:id',getquestion,async (req,res) => {
 async function getquestion(req,res,next){
     let question
     try {
-        question = await question.findById(req.params.id)
+        question = await Question.findById(req.params.id)
         if (question == null){
             return res.status(404).json({message : "question non trouve"})
         }
