@@ -135,14 +135,241 @@ router.post ('/',multer,async (req,res) => {
 
     
     try {
+        var token = new Token({ email: user.email, token: crypto.randomBytes(16).toString('hex') });
+        await token.save();
+        
+        var smtpTrans = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'fanart3a18@gmail.com',
+                pass: '3A18java123'
+            }
+        });
+
+        hname = user.nom
+
+        link = 'http:\/\/' + req.headers.host + '\/user\/confirmation\/' + user.email + '\/' + token.token
+        var mailOptions = { from: 'fanart3a18@gmail.com', to: user.email, subject: 'Verification de compte', 
+        html : 
+        
+    `
+    <!DOCTYPE html>
+    <html>
+    
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <style type="text/css">
+            @media screen {
+                @font-face {
+                    font-family: 'Lato';
+                    font-style: normal;
+                    font-weight: 400;
+                    src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+                }
+    
+                @font-face {
+                    font-family: 'Lato';
+                    font-style: normal;
+                    font-weight: 700;
+                    src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+                }
+    
+                @font-face {
+                    font-family: 'Lato';
+                    font-style: italic;
+                    font-weight: 400;
+                    src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v11/RYyZNoeFgb0l7W3Vu1aSWOvvDin1pK8aKteLpeZ5c0A.woff) format('woff');
+                }
+    
+                @font-face {
+                    font-family: 'Lato';
+                    font-style: italic;
+                    font-weight: 700;
+                    src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://fonts.gstatic.com/s/lato/v11/HkF_qI1x_noxlxhrhMQYELO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+                }
+            }
+    
+            /* CLIENT-SPECIFIC STYLES */
+            body,
+            table,
+            td,
+            a {
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+            }
+    
+            table,
+            td {
+                mso-table-lspace: 0pt;
+                mso-table-rspace: 0pt;
+            }
+    
+            img {
+                -ms-interpolation-mode: bicubic;
+            }
+    
+            /* RESET STYLES */
+            img {
+                border: 0;
+                height: auto;
+                line-height: 100%;
+                outline: none;
+                text-decoration: none;
+            }
+    
+            table {
+                border-collapse: collapse !important;
+            }
+    
+            body {
+                height: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+            }
+    
+            /* iOS BLUE LINKS */
+            a[x-apple-data-detectors] {
+                color: inherit !important;
+                text-decoration: none !important;
+                font-size: inherit !important;
+                font-family: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+            }
+    
+            /* MOBILE STYLES */
+            @media screen and (max-width:600px) {
+                h1 {
+                    font-size: 32px !important;
+                    line-height: 32px !important;
+                }
+            }
+    
+            /* ANDROID CENTER FIX */
+            div[style*="margin: 16px 0;"] {
+                margin: 0 !important;
+            }
+        </style>
+    </head>
+    
+    <body style="background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;">
+        <!-- HIDDEN PREHEADER TEXT -->
+        <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;"> We're thrilled to have you here! Get ready to dive into your new account. </div>
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <!-- LOGO -->
+            <tr>
+                <td bgcolor="#FFA73B" align="center">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td align="center" valign="top" style="padding: 40px 10px 40px 10px;"> </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#FFA73B" align="center" style="padding: 0px 10px 0px 10px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
+                                <h1 style="font-size: 48px; font-weight: 400; margin: 2;">Welcome ${hname}!</h1> <img src=" https://img.icons8.com/clouds/100/000000/handshake.png" width="125" height="120" style="display: block; border: 0px;" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <p style="margin: 0;">We're excited to have you get started. First, you need to confirm your account. Just press the button below.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#ffffff" align="left">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
+                                            <table border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                    <td align="center" style="border-radius: 3px;" bgcolor="#FFA73B"><a href="${link}" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">Confirm Account</a></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr> <!-- COPY -->
+                        <tr>
+                            <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <p style="margin: 0;">If that doesn't work, copy and paste the following link in your browser:</p>
+                            </td>
+                        </tr> <!-- COPY -->
+                        <tr>
+                            <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <p style="margin: 0;"><a href="#" target="_blank" style="color: #FFA73B;">https://bit.li.utlddssdstueincx</a></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <p style="margin: 0;">If you have any questions, just reply to this email—we're always happy to help out.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 40px 30px; border-radius: 0px 0px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <p style="margin: 0;">Cheers,<br>BBB Team</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#f4f4f4" align="center" style="padding: 30px 10px 0px 10px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td bgcolor="#FFECD1" align="center" style="padding: 30px 30px 30px 30px; border-radius: 4px 4px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <h2 style="font-size: 20px; font-weight: 400; color: #111111; margin: 0;">Need more help?</h2>
+                                <p style="margin: 0;"><a href="#" target="_blank" style="color: #FFA73B;">We&rsquo;re here to help you out</a></p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td bgcolor="#f4f4f4" align="left" style="padding: 0px 30px 30px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 18px;"> <br>
+                                <p style="margin: 0;">If these emails get annoying, please feel free to <a href="#" target="_blank" style="color: #111111; font-weight: 700;">unsubscribe</a>.</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+    
+    </html>
+    `   
+    
+    };
+        smtpTrans.sendMail(mailOptions, function (err) {
+            if (err) {
+                res.status(500).send({ msg: 'Technical Issue!, Please click on resend for verify your Email.' });
+            }
+            
+        });
         const newUser = await user.save()
-        const tokenJWT = jwt.sign({username: req.body.email}, "SECRET")
         res.status(201).json({token:tokenJWT,
-                            user:newUser,
-                            reponse: "good"})
-    } catch (error) {
-        res.status(400).json({reponse: error.message})
-    }
+            user:user,
+        reponse: "good"})
+} catch (error) {
+res.status(400).json({reponse: error.message})
+}
 })
 //updating one
 router.patch ('/:id',getUserById,multer,async (req,res) => {
@@ -227,6 +454,7 @@ router.delete ('/:id',getUserById,async (req,res) => {
 
 //creating one Using Social Media
 router.post ('/Social',multer,async (req,res) => {
+    console.log("hello");
     await User.init();
 
     const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
@@ -252,8 +480,215 @@ router.post ('/Social',multer,async (req,res) => {
             }
         });
 
+        hname = user.nom
 
-        var mailOptions = { from: 'fanart3a18@gmail.com', to: user.email, subject: 'Verification de compte', text: 'Bonjour/Bonsoir ' + user.nom + ',\n\n' + 'Pour verifier votre compte merci de cliquer sur le lien suivant: \nhttp:\/\/' + req.headers.host + '\/user\/confirmation\/' + user.email + '\/' + token.token + '\n\nMerci !\n' };
+        link = 'http:\/\/' + req.headers.host + '\/user\/confirmation\/' + user.email + '\/' + token.token
+        var mailOptions = { from: 'fanart3a18@gmail.com', to: user.email, subject: 'Verification de compte', 
+        html : 
+        
+    `
+    <!DOCTYPE html>
+    <html>
+    
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <style type="text/css">
+            @media screen {
+                @font-face {
+                    font-family: 'Lato';
+                    font-style: normal;
+                    font-weight: 400;
+                    src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+                }
+    
+                @font-face {
+                    font-family: 'Lato';
+                    font-style: normal;
+                    font-weight: 700;
+                    src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+                }
+    
+                @font-face {
+                    font-family: 'Lato';
+                    font-style: italic;
+                    font-weight: 400;
+                    src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v11/RYyZNoeFgb0l7W3Vu1aSWOvvDin1pK8aKteLpeZ5c0A.woff) format('woff');
+                }
+    
+                @font-face {
+                    font-family: 'Lato';
+                    font-style: italic;
+                    font-weight: 700;
+                    src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://fonts.gstatic.com/s/lato/v11/HkF_qI1x_noxlxhrhMQYELO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+                }
+            }
+    
+            /* CLIENT-SPECIFIC STYLES */
+            body,
+            table,
+            td,
+            a {
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+            }
+    
+            table,
+            td {
+                mso-table-lspace: 0pt;
+                mso-table-rspace: 0pt;
+            }
+    
+            img {
+                -ms-interpolation-mode: bicubic;
+            }
+    
+            /* RESET STYLES */
+            img {
+                border: 0;
+                height: auto;
+                line-height: 100%;
+                outline: none;
+                text-decoration: none;
+            }
+    
+            table {
+                border-collapse: collapse !important;
+            }
+    
+            body {
+                height: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+            }
+    
+            /* iOS BLUE LINKS */
+            a[x-apple-data-detectors] {
+                color: inherit !important;
+                text-decoration: none !important;
+                font-size: inherit !important;
+                font-family: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+            }
+    
+            /* MOBILE STYLES */
+            @media screen and (max-width:600px) {
+                h1 {
+                    font-size: 32px !important;
+                    line-height: 32px !important;
+                }
+            }
+    
+            /* ANDROID CENTER FIX */
+            div[style*="margin: 16px 0;"] {
+                margin: 0 !important;
+            }
+        </style>
+    </head>
+    
+    <body style="background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;">
+        <!-- HIDDEN PREHEADER TEXT -->
+        <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;"> We're thrilled to have you here! Get ready to dive into your new account. </div>
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <!-- LOGO -->
+            <tr>
+                <td bgcolor="#FFA73B" align="center">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td align="center" valign="top" style="padding: 40px 10px 40px 10px;"> </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#FFA73B" align="center" style="padding: 0px 10px 0px 10px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
+                                <h1 style="font-size: 48px; font-weight: 400; margin: 2;">Welcome ${hname}!</h1> <img src=" https://img.icons8.com/clouds/100/000000/handshake.png" width="125" height="120" style="display: block; border: 0px;" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <p style="margin: 0;">We're excited to have you get started. First, you need to confirm your account. Just press the button below.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#ffffff" align="left">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
+                                            <table border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                    <td align="center" style="border-radius: 3px;" bgcolor="#FFA73B"><a href="${link}" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">Confirm Account</a></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr> <!-- COPY -->
+                        <tr>
+                            <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <p style="margin: 0;">If that doesn't work, copy and paste the following link in your browser:</p>
+                            </td>
+                        </tr> <!-- COPY -->
+                        <tr>
+                            
+                        </tr>
+                        <tr>
+                            <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <p style="margin: 0;">If you have any questions, just reply to this email—we're always happy to help out.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 40px 30px; border-radius: 0px 0px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <p style="margin: 0;">Cheers,<br>BBB Team</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#f4f4f4" align="center" style="padding: 30px 10px 0px 10px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td bgcolor="#FFECD1" align="center" style="padding: 30px 30px 30px 30px; border-radius: 4px 4px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <h2 style="font-size: 20px; font-weight: 400; color: #111111; margin: 0;">Need more help?</h2>
+                                <p style="margin: 0;"><a href="#" target="_blank" style="color: #FFA73B;">We&rsquo;re here to help you out</a></p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td bgcolor="#f4f4f4" align="left" style="padding: 0px 30px 30px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 18px;"> <br>
+                                <p style="margin: 0;">If these emails get annoying, please feel free to <a href="#" target="_blank" style="color: #111111; font-weight: 700;">unsubscribe</a>.</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+    
+    </html>
+    `   
+    
+    };
         smtpTrans.sendMail(mailOptions, function (err) {
             if (err) {
                 res.status(500).send({ msg: 'Technical Issue!, Please click on resend for verify your Email.' });
@@ -281,8 +716,10 @@ res.status(400).json({reponse: error.message})
 
 router.post('/resendConfirmation/:id',getUserById,async (req,res,next) =>{
 
+    
     try {
         const token = await Token.findOne({email: req.body.email })
+        console.log(req.body.email);
         var smtpTrans = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -290,9 +727,215 @@ router.post('/resendConfirmation/:id',getUserById,async (req,res,next) =>{
                 pass: '3A18java123'
             }
         });
+        console.log(token);
 
-
-        var mailOptions = { from: 'fanart3a18@gmail.com', to: res.user.email, subject: 'Verification de compte', text: 'Bonjour/Bonsoir ' + res.user.nom + ',\n\n' + 'Pour verifier votre compte merci de cliquer sur le lien suivant: \nhttp:\/\/' + req.headers.host + '\/user\/confirmation\/' + res.user.email + '\/' + token.token + '\n\nMerci !\n' };
+        hname = res.user.nom
+        link = 'http:\/\/' + req.headers.host + '\/user\/confirmation\/' + res.user.email + '\/' + token.token
+    
+        var mailOptions = { from: 'fanart3a18@gmail.com', to: res.user.email, subject: 'Verification de compte', 
+        html : 
+        
+    `
+    <!DOCTYPE html>
+    <html>
+    
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <style type="text/css">
+            @media screen {
+                @font-face {
+                    font-family: 'Lato';
+                    font-style: normal;
+                    font-weight: 400;
+                    src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+                }
+    
+                @font-face {
+                    font-family: 'Lato';
+                    font-style: normal;
+                    font-weight: 700;
+                    src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+                }
+    
+                @font-face {
+                    font-family: 'Lato';
+                    font-style: italic;
+                    font-weight: 400;
+                    src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v11/RYyZNoeFgb0l7W3Vu1aSWOvvDin1pK8aKteLpeZ5c0A.woff) format('woff');
+                }
+    
+                @font-face {
+                    font-family: 'Lato';
+                    font-style: italic;
+                    font-weight: 700;
+                    src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://fonts.gstatic.com/s/lato/v11/HkF_qI1x_noxlxhrhMQYELO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+                }
+            }
+    
+            /* CLIENT-SPECIFIC STYLES */
+            body,
+            table,
+            td,
+            a {
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+            }
+    
+            table,
+            td {
+                mso-table-lspace: 0pt;
+                mso-table-rspace: 0pt;
+            }
+    
+            img {
+                -ms-interpolation-mode: bicubic;
+            }
+    
+            /* RESET STYLES */
+            img {
+                border: 0;
+                height: auto;
+                line-height: 100%;
+                outline: none;
+                text-decoration: none;
+            }
+    
+            table {
+                border-collapse: collapse !important;
+            }
+    
+            body {
+                height: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+            }
+    
+            /* iOS BLUE LINKS */
+            a[x-apple-data-detectors] {
+                color: inherit !important;
+                text-decoration: none !important;
+                font-size: inherit !important;
+                font-family: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+            }
+    
+            /* MOBILE STYLES */
+            @media screen and (max-width:600px) {
+                h1 {
+                    font-size: 32px !important;
+                    line-height: 32px !important;
+                }
+            }
+    
+            /* ANDROID CENTER FIX */
+            div[style*="margin: 16px 0;"] {
+                margin: 0 !important;
+            }
+        </style>
+    </head>
+    
+    <body style="background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;">
+        <!-- HIDDEN PREHEADER TEXT -->
+        <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;"> We're thrilled to have you here! Get ready to dive into your new account. </div>
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <!-- LOGO -->
+            <tr>
+                <td bgcolor="#FFA73B" align="center">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td align="center" valign="top" style="padding: 40px 10px 40px 10px;"> </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#FFA73B" align="center" style="padding: 0px 10px 0px 10px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
+                                <h1 style="font-size: 48px; font-weight: 400; margin: 2;">Welcome ${hname}!</h1> <img src=" https://img.icons8.com/clouds/100/000000/handshake.png" width="125" height="120" style="display: block; border: 0px;" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <p style="margin: 0;">We're excited to have you get started. First, you need to confirm your account. Just press the button below.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#ffffff" align="left">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
+                                            <table border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                    <td align="center" style="border-radius: 3px;" bgcolor="#FFA73B"><a href="${link}" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">Confirm Account</a></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr> <!-- COPY -->
+                        <tr>
+                            <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <p style="margin: 0;">If that doesn't work, copy and paste the following link in your browser:</p>
+                            </td>
+                        </tr> <!-- COPY -->
+                      
+                        <tr>
+                            <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <p style="margin: 0;">If you have any questions, just reply to this email—we're always happy to help out.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 40px 30px; border-radius: 0px 0px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <p style="margin: 0;">Cheers,<br>BBB Team</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#f4f4f4" align="center" style="padding: 30px 10px 0px 10px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td bgcolor="#FFECD1" align="center" style="padding: 30px 30px 30px 30px; border-radius: 4px 4px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <h2 style="font-size: 20px; font-weight: 400; color: #111111; margin: 0;">Need more help?</h2>
+                                <p style="margin: 0;"><a href="#" target="_blank" style="color: #FFA73B;">We&rsquo;re here to help you out</a></p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td bgcolor="#f4f4f4" align="left" style="padding: 0px 30px 30px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 18px;"> <br>
+                                <p style="margin: 0;">If these emails get annoying, please feel free to <a href="#" target="_blank" style="color: #111111; font-weight: 700;">unsubscribe</a>.</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+    
+    </html>
+    `
+    
+    };
         smtpTrans.sendMail(mailOptions, function (err) {
             if (err) {
                 res.status(500).send({ msg: 'Technical Issue!, Please click on resend for verify your Email.' });
@@ -322,7 +965,157 @@ router.get('/confirmation/:email/:token', async (req, res, next) => {
                 }
                 // user is already verified
                 else if (user.isVerified) {
-                    return res.status(200).send('User has been already verified. Please Login');
+                    return res.status(200).send(
+                        `
+                            <!DOCTYPE html>
+                            <html>
+                            
+                            <head>
+                                <title></title>
+                                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                                <meta name="viewport" content="width=device-width, initial-scale=1">
+                                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                                <style type="text/css">
+                                    @media screen {
+                                        @font-face {
+                                            font-family: 'Lato';
+                                            font-style: normal;
+                                            font-weight: 400;
+                                            src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+                                        }
+                            
+                                        @font-face {
+                                            font-family: 'Lato';
+                                            font-style: normal;
+                                            font-weight: 700;
+                                            src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+                                        }
+                            
+                                        @font-face {
+                                            font-family: 'Lato';
+                                            font-style: italic;
+                                            font-weight: 400;
+                                            src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v11/RYyZNoeFgb0l7W3Vu1aSWOvvDin1pK8aKteLpeZ5c0A.woff) format('woff');
+                                        }
+                            
+                                        @font-face {
+                                            font-family: 'Lato';
+                                            font-style: italic;
+                                            font-weight: 700;
+                                            src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://fonts.gstatic.com/s/lato/v11/HkF_qI1x_noxlxhrhMQYELO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+                                        }
+                                    }
+                            
+                                    /* CLIENT-SPECIFIC STYLES */
+                                    body,
+                                    table,
+                                    td,
+                                    a {
+                                        -webkit-text-size-adjust: 100%;
+                                        -ms-text-size-adjust: 100%;
+                                    }
+                            
+                                    table,
+                                    td {
+                                        mso-table-lspace: 0pt;
+                                        mso-table-rspace: 0pt;
+                                    }
+                            
+                                    img {
+                                        -ms-interpolation-mode: bicubic;
+                                    }
+                            
+                                    /* RESET STYLES */
+                                    img {
+                                        border: 0;
+                                        height: auto;
+                                        line-height: 100%;
+                                        outline: none;
+                                        text-decoration: none;
+                                    }
+                            
+                                    table {
+                                        border-collapse: collapse !important;
+                                    }
+                            
+                                    body {
+                                        height: 100% !important;
+                                        margin: 0 !important;
+                                        padding: 0 !important;
+                                        width: 100% !important;
+                                    }
+                            
+                                    /* iOS BLUE LINKS */
+                                    a[x-apple-data-detectors] {
+                                        color: inherit !important;
+                                        text-decoration: none !important;
+                                        font-size: inherit !important;
+                                        font-family: inherit !important;
+                                        font-weight: inherit !important;
+                                        line-height: inherit !important;
+                                    }
+                            
+                                    /* MOBILE STYLES */
+                                    @media screen and (max-width:600px) {
+                                        h1 {
+                                            font-size: 32px !important;
+                                            line-height: 32px !important;
+                                        }
+                                    }
+                            
+                                    /* ANDROID CENTER FIX */
+                                    div[style*="margin: 16px 0;"] {
+                                        margin: 0 !important;
+                                    }
+                                </style>
+                            </head>
+                            
+                            <body style="background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;">
+                                <!-- HIDDEN PREHEADER TEXT -->
+                                <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;"> We're thrilled to have you here! Get ready to dive into your new account. </div>
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                    <!-- LOGO -->
+                                    <tr>
+                                        <td bgcolor="#FFA73B" align="center">
+                                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                                                <tr>
+                                                    <td align="center" valign="top" style="padding: 40px 10px 40px 10px;"> </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td bgcolor="#FFA73B" align="center" style="padding: 0px 10px 0px 10px;">
+                                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                                                <tr>
+                                                    <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
+                                                        <h1 style="font-size: 48px; font-weight: 400; margin: 2;">Compte deja verifié!</h1> <img src=" https://img.icons8.com/clouds/100/000000/handshake.png" width="125" height="120" style="display: block; border: 0px;" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
+                                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                                                <tr>
+                                                    <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                                        <p style="margin: 0;">Votre compte est deja verifié, vous pouvez commencer a poster et interagir avec les articles LostAndFound</p>
+                                                    </td>
+                                                </tr>
+                                                
+                                                
+                                            </table>
+                                        </td>
+                                    </tr>
+                                   
+                                </table>
+                            </body>
+                            
+                            </html>
+
+                            `
+                    );
                 }
                 // verify user
                 else {
@@ -336,7 +1129,164 @@ router.get('/confirmation/:email/:token', async (req, res, next) => {
                         // account successfully verified
                         else {
                             token.delete()
-                            return res.status(200).send('Your account has been successfully verified');
+                            return res.status(200).send( `
+                            <!DOCTYPE html>
+                            <html>
+                            
+                            <head>
+                                <title></title>
+                                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                                <meta name="viewport" content="width=device-width, initial-scale=1">
+                                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                                <style type="text/css">
+                                    @media screen {
+                                        @font-face {
+                                            font-family: 'Lato';
+                                            font-style: normal;
+                                            font-weight: 400;
+                                            src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+                                        }
+                            
+                                        @font-face {
+                                            font-family: 'Lato';
+                                            font-style: normal;
+                                            font-weight: 700;
+                                            src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+                                        }
+                            
+                                        @font-face {
+                                            font-family: 'Lato';
+                                            font-style: italic;
+                                            font-weight: 400;
+                                            src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v11/RYyZNoeFgb0l7W3Vu1aSWOvvDin1pK8aKteLpeZ5c0A.woff) format('woff');
+                                        }
+                            
+                                        @font-face {
+                                            font-family: 'Lato';
+                                            font-style: italic;
+                                            font-weight: 700;
+                                            src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://fonts.gstatic.com/s/lato/v11/HkF_qI1x_noxlxhrhMQYELO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+                                        }
+                                    }
+                            
+                                    /* CLIENT-SPECIFIC STYLES */
+                                    body,
+                                    table,
+                                    td,
+                                    a {
+                                        -webkit-text-size-adjust: 100%;
+                                        -ms-text-size-adjust: 100%;
+                                    }
+                            
+                                    table,
+                                    td {
+                                        mso-table-lspace: 0pt;
+                                        mso-table-rspace: 0pt;
+                                    }
+                            
+                                    img {
+                                        -ms-interpolation-mode: bicubic;
+                                    }
+                            
+                                    /* RESET STYLES */
+                                    img {
+                                        border: 0;
+                                        height: auto;
+                                        line-height: 100%;
+                                        outline: none;
+                                        text-decoration: none;
+                                    }
+                            
+                                    table {
+                                        border-collapse: collapse !important;
+                                    }
+                            
+                                    body {
+                                        height: 100% !important;
+                                        margin: 0 !important;
+                                        padding: 0 !important;
+                                        width: 100% !important;
+                                    }
+                            
+                                    /* iOS BLUE LINKS */
+                                    a[x-apple-data-detectors] {
+                                        color: inherit !important;
+                                        text-decoration: none !important;
+                                        font-size: inherit !important;
+                                        font-family: inherit !important;
+                                        font-weight: inherit !important;
+                                        line-height: inherit !important;
+                                    }
+                            
+                                    /* MOBILE STYLES */
+                                    @media screen and (max-width:600px) {
+                                        h1 {
+                                            font-size: 32px !important;
+                                            line-height: 32px !important;
+                                        }
+                                    }
+                            
+                                    /* ANDROID CENTER FIX */
+                                    div[style*="margin: 16px 0;"] {
+                                        margin: 0 !important;
+                                    }
+                                </style>
+                            </head>
+                            
+                            <body style="background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;">
+                                <!-- HIDDEN PREHEADER TEXT -->
+                                <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;"> We're thrilled to have you here! Get ready to dive into your new account. </div>
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                    <!-- LOGO -->
+                                    <tr>
+                                        <td bgcolor="#FFA73B" align="center">
+                                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                                                <tr>
+                                                    <td align="center" valign="top" style="padding: 40px 10px 40px 10px;"> </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td bgcolor="#FFA73B" align="center" style="padding: 0px 10px 0px 10px;">
+                                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                                                <tr>
+                                                    <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
+                                                        <h1 style="font-size: 48px; font-weight: 400; margin: 2;">Welcome !</h1> <img src=" https://img.icons8.com/clouds/100/000000/handshake.png" width="125" height="120" style="display: block; border: 0px;" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
+                                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                                                <tr>
+                                                    <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                                        <p style="margin: 0;">Pour verifier votre compte merci de cliquer sur le bouton suivant</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td bgcolor="#ffffff" align="left">
+                                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                            <tr>
+                                                                <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
+                                                                    <table border="0" cellspacing="0" cellpadding="0">
+                                                                        <tr>
+                                                                            <td align="center" style="border-radius: 3px;" bgcolor="#FFA73B"><a href="#" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">Confirmer le compte</a></td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                    </tr>
+                                </table>
+                            </body>
+                            
+                            </html>
+
+                            `);
                         }
                     });
                 }
@@ -455,7 +1405,8 @@ router.get('/confirmation/:email/:token', async (req, res, next) => {
                 }
                 // user is already verified
                 else if (user.isVerified) {
-                    return res.status(200).send('User has been already verified. Please Login');
+                    console.log("no");
+                    return res.status(200).send(  { msg: 'already verified plz login' } );
                 }
                 // verify user
                 else {
@@ -468,212 +1419,8 @@ router.get('/confirmation/:email/:token', async (req, res, next) => {
                         }
                         // account successfully verified
                         else {
-                            return res.status(200).send(
-                                `
-                                <!DOCTYPE html>
-                                <html>
-                                
-                                <head>
-                                    <title></title>
-                                    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-                                    <meta name="viewport" content="width=device-width, initial-scale=1">
-                                    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-                                    <style type="text/css">
-                                        @media screen {
-                                            @font-face {
-                                                font-family: 'Lato';
-                                                font-style: normal;
-                                                font-weight: 400;
-                                                src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
-                                            }
-                                
-                                            @font-face {
-                                                font-family: 'Lato';
-                                                font-style: normal;
-                                                font-weight: 700;
-                                                src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
-                                            }
-                                
-                                            @font-face {
-                                                font-family: 'Lato';
-                                                font-style: italic;
-                                                font-weight: 400;
-                                                src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v11/RYyZNoeFgb0l7W3Vu1aSWOvvDin1pK8aKteLpeZ5c0A.woff) format('woff');
-                                            }
-                                
-                                            @font-face {
-                                                font-family: 'Lato';
-                                                font-style: italic;
-                                                font-weight: 700;
-                                                src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://fonts.gstatic.com/s/lato/v11/HkF_qI1x_noxlxhrhMQYELO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
-                                            }
-                                        }
-                                
-                                        /* CLIENT-SPECIFIC STYLES */
-                                        body,
-                                        table,
-                                        td,
-                                        a {
-                                            -webkit-text-size-adjust: 100%;
-                                            -ms-text-size-adjust: 100%;
-                                        }
-                                
-                                        table,
-                                        td {
-                                            mso-table-lspace: 0pt;
-                                            mso-table-rspace: 0pt;
-                                        }
-                                
-                                        img {
-                                            -ms-interpolation-mode: bicubic;
-                                        }
-                                
-                                        /* RESET STYLES */
-                                        img {
-                                            border: 0;
-                                            height: auto;
-                                            line-height: 100%;
-                                            outline: none;
-                                            text-decoration: none;
-                                        }
-                                
-                                        table {
-                                            border-collapse: collapse !important;
-                                        }
-                                
-                                        body {
-                                            height: 100% !important;
-                                            margin: 0 !important;
-                                            padding: 0 !important;
-                                            width: 100% !important;
-                                        }
-                                
-                                        /* iOS BLUE LINKS */
-                                        a[x-apple-data-detectors] {
-                                            color: inherit !important;
-                                            text-decoration: none !important;
-                                            font-size: inherit !important;
-                                            font-family: inherit !important;
-                                            font-weight: inherit !important;
-                                            line-height: inherit !important;
-                                        }
-                                
-                                        /* MOBILE STYLES */
-                                        @media screen and (max-width:600px) {
-                                            h1 {
-                                                font-size: 32px !important;
-                                                line-height: 32px !important;
-                                            }
-                                        }
-                                
-                                        /* ANDROID CENTER FIX */
-                                        div[style*="margin: 16px 0;"] {
-                                            margin: 0 !important;
-                                        }
-                                    </style>
-                                </head>
-                                
-                                <body style="background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;">
-                                    <!-- HIDDEN PREHEADER TEXT -->
-                                    <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;"> We're thrilled to have you here! Get ready to dive into your new account. </div>
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                        <!-- LOGO -->
-                                        <tr>
-                                            <td bgcolor="#FFA73B" align="center">
-                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
-                                                    <tr>
-                                                        <td align="center" valign="top" style="padding: 40px 10px 40px 10px;"> </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td bgcolor="#FFA73B" align="center" style="padding: 0px 10px 0px 10px;">
-                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
-                                                    <tr>
-                                                        <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
-                                                            <h1 style="font-size: 48px; font-weight: 400; margin: 2;">Welcome!</h1> <img src=" https://img.icons8.com/clouds/100/000000/handshake.png" width="125" height="120" style="display: block; border: 0px;" />
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
-                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
-                                                    <tr>
-                                                        <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                                                            <p style="margin: 0;">We're excited to have you get started. First, you need to confirm your account. Just press the button below.</p>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td bgcolor="#ffffff" align="left">
-                                                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                                                <tr>
-                                                                    <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
-                                                                        <table border="0" cellspacing="0" cellpadding="0">
-                                                                            <tr>
-                                                                                <td align="center" style="border-radius: 3px;" bgcolor="#FFA73B"><a href="#" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">Confirm Account</a></td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </td>
-                                                    </tr> <!-- COPY -->
-                                                    <tr>
-                                                        <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                                                            <p style="margin: 0;">If that doesn't work, copy and paste the following link in your browser:</p>
-                                                        </td>
-                                                    </tr> <!-- COPY -->
-                                                    <tr>
-                                                        <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                                                            <p style="margin: 0;"><a href="#" target="_blank" style="color: #FFA73B;">https://bit.li.utlddssdstueincx</a></p>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                                                            <p style="margin: 0;">If you have any questions, just reply to this email—we're always happy to help out.</p>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 40px 30px; border-radius: 0px 0px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                                                            <p style="margin: 0;">Cheers,<br>BBB Team</p>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td bgcolor="#f4f4f4" align="center" style="padding: 30px 10px 0px 10px;">
-                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
-                                                    <tr>
-                                                        <td bgcolor="#FFECD1" align="center" style="padding: 30px 30px 30px 30px; border-radius: 4px 4px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                                                            <h2 style="font-size: 20px; font-weight: 400; color: #111111; margin: 0;">Need more help?</h2>
-                                                            <p style="margin: 0;"><a href="#" target="_blank" style="color: #FFA73B;">We&rsquo;re here to help you out</a></p>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
-                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
-                                                    <tr>
-                                                        <td bgcolor="#f4f4f4" align="left" style="padding: 0px 30px 30px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 18px;"> <br>
-                                                            <p style="margin: 0;">If these emails get annoying, please feel free to <a href="#" target="_blank" style="color: #111111; font-weight: 700;">unsubscribe</a>.</p>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </body>
-                                
-                                </html>
-
-                                `                        )
-                            }
+                            return res.status(200).send("test");
+                        }
                     });
                 }
             });
@@ -792,5 +1539,215 @@ function mail (req,res,next){
                     user: "user"
                 });
     });
+}
+
+function template(hname){
+    return
+    `
+    <!DOCTYPE html>
+    <html>
+    
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <style type="text/css">
+            @media screen {
+                @font-face {
+                    font-family: 'Lato';
+                    font-style: normal;
+                    font-weight: 400;
+                    src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+                }
+    
+                @font-face {
+                    font-family: 'Lato';
+                    font-style: normal;
+                    font-weight: 700;
+                    src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+                }
+    
+                @font-face {
+                    font-family: 'Lato';
+                    font-style: italic;
+                    font-weight: 400;
+                    src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v11/RYyZNoeFgb0l7W3Vu1aSWOvvDin1pK8aKteLpeZ5c0A.woff) format('woff');
+                }
+    
+                @font-face {
+                    font-family: 'Lato';
+                    font-style: italic;
+                    font-weight: 700;
+                    src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://fonts.gstatic.com/s/lato/v11/HkF_qI1x_noxlxhrhMQYELO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+                }
+            }
+    
+            /* CLIENT-SPECIFIC STYLES */
+            body,
+            table,
+            td,
+            a {
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+            }
+    
+            table,
+            td {
+                mso-table-lspace: 0pt;
+                mso-table-rspace: 0pt;
+            }
+    
+            img {
+                -ms-interpolation-mode: bicubic;
+            }
+    
+            /* RESET STYLES */
+            img {
+                border: 0;
+                height: auto;
+                line-height: 100%;
+                outline: none;
+                text-decoration: none;
+            }
+    
+            table {
+                border-collapse: collapse !important;
+            }
+    
+            body {
+                height: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+            }
+    
+            /* iOS BLUE LINKS */
+            a[x-apple-data-detectors] {
+                color: inherit !important;
+                text-decoration: none !important;
+                font-size: inherit !important;
+                font-family: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+            }
+    
+            /* MOBILE STYLES */
+            @media screen and (max-width:600px) {
+                h1 {
+                    font-size: 32px !important;
+                    line-height: 32px !important;
+                }
+            }
+    
+            /* ANDROID CENTER FIX */
+            div[style*="margin: 16px 0;"] {
+                margin: 0 !important;
+            }
+        </style>
+    </head>
+    
+    <body style="background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;">
+        <!-- HIDDEN PREHEADER TEXT -->
+        <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;"> We're thrilled to have you here! Get ready to dive into your new account. </div>
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <!-- LOGO -->
+            <tr>
+                <td bgcolor="#FFA73B" align="center">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td align="center" valign="top" style="padding: 40px 10px 40px 10px;"> </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#FFA73B" align="center" style="padding: 0px 10px 0px 10px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
+                                <h1 style="font-size: 48px; font-weight: 400; margin: 2;">Welcome ${hname}!</h1> <img src=" https://img.icons8.com/clouds/100/000000/handshake.png" width="125" height="120" style="display: block; border: 0px;" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <p style="margin: 0;">We're excited to have you get started. First, you need to confirm your account. Just press the button below.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#ffffff" align="left">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
+                                            <table border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                    <td align="center" style="border-radius: 3px;" bgcolor="#FFA73B"><a href="#" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">Confirm Account</a></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr> <!-- COPY -->
+                        <tr>
+                            <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <p style="margin: 0;">If that doesn't work, copy and paste the following link in your browser:</p>
+                            </td>
+                        </tr> <!-- COPY -->
+                        <tr>
+                            <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <p style="margin: 0;"><a href="#" target="_blank" style="color: #FFA73B;">https://bit.li.utlddssdstueincx</a></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <p style="margin: 0;">If you have any questions, just reply to this email—we're always happy to help out.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 40px 30px; border-radius: 0px 0px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <p style="margin: 0;">Cheers,<br>BBB Team</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#f4f4f4" align="center" style="padding: 30px 10px 0px 10px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td bgcolor="#FFECD1" align="center" style="padding: 30px 30px 30px 30px; border-radius: 4px 4px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                                <h2 style="font-size: 20px; font-weight: 400; color: #111111; margin: 0;">Need more help?</h2>
+                                <p style="margin: 0;"><a href="#" target="_blank" style="color: #FFA73B;">We&rsquo;re here to help you out</a></p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                        <tr>
+                            <td bgcolor="#f4f4f4" align="left" style="padding: 0px 30px 30px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 18px;"> <br>
+                                <p style="margin: 0;">If these emails get annoying, please feel free to <a href="#" target="_blank" style="color: #111111; font-weight: 700;">unsubscribe</a>.</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+    
+    </html>
+    `
+    
+    
+    
 }
 module.exports = router

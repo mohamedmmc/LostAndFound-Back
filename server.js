@@ -62,8 +62,8 @@ app.use('/user',userRoute)
 const articleRoute = require('./routes/article')
 app.use('/article',articleRoute)
 
-const quizzRoute = require('./routes/quizz')
-app.use('/quizz',quizzRoute)
+const reponseRoute = require('./routes/reponse')
+app.use('/reponse',reponseRoute)
 
 const questionRoute = require('./routes/question')
 app.use('/question',questionRoute)

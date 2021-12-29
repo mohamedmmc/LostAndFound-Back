@@ -1,12 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const Question = require('../models/question')
-const Quizz = require('../models/quizz.js')
+
 
 //getting all
 router.get ('/', async (req,res) => {
     try {
-        const question = await Question.find()
+        const question = await Question.find().populate('article').populate('reponse')
         res.json(question)
     } catch (error) {
         res.status(500).json({message: error.message})
@@ -14,32 +14,23 @@ router.get ('/', async (req,res) => {
 }) 
 //getting one
 router.get ('/:id',getquestion,(req,res) => {
-    res.send(res.question.nom)
+    res.send(res.question.titre)
 })
-//creating one
+//creating a question with article id
 router.post ('/',async (req,res) => {
-    console.log(req.body)
 
     const question = new Question({
-        titre: req.body.question
-    })
-    try {
-        const newquestion = await Question.save()
-        console.log("la question ",question)
-
-    } catch (error) {
-        res.status(400).json({message: error.message})
-    }
-    const quizz = new Quizz({
-        question: newquestion.id,
+        titre: req.body.titre,
         article: req.body.article
     })
     try {
-        const newQuizz = await Quizz.save()
-        res.status(201).json(newQuizz)
+        const newquestion = await question.save()
+        res.status(201).json({question:newquestion})
+
     } catch (error) {
         res.status(400).json({message: error.message})
     }
+    
 })
 //updating one
 router.patch ('/:id',getquestion,async (req,res) => {

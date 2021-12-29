@@ -5,9 +5,13 @@ const questionchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    reponse: {
+    reponse: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'reponse'
+    }],
+    article:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'article'
     }
     
 })
