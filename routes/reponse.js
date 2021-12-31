@@ -5,21 +5,18 @@ const multer = require ('../middleware/multer-config')
 const cloudinary = require("../middleware/cloudinary")
 const Reponse = require('../models/reponse')
 const Question = require('../models/question')
+const Article = require('../models/article')
 //getting all
-router.get ('/', async (req,res) => {
+router.get ('/:id', async (req,res) => {
     try {
-        const reponse = await Reponse.find()
-        if (reponse.length>0){
-            res.json({
-                    reponse: reponse})
-        }
-        else{
-            res.json({message:"nothing to show"})
-        }
+        const reponses = await Question.find({article:req.params.id})
+        res.json({reponses:reponses})
     } catch (error) {
         res.status(500).json({message: error.message})
     }
 }) 
+
+
 //getting one
 router.get ('/:id',getreponse,(req,res) => {
     res.send(res.reponse.nom)

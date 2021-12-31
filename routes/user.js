@@ -92,6 +92,11 @@ router.get ('/', async (req,res) => {
         res.status(500).json({reponse: error.message})
     }
 }) 
+
+
+
+
+
 //getting one
 // get one user
 
