@@ -32,7 +32,7 @@ const Articlechema = new mongoose.Schema({
         ref: 'user'
     },
     question:{
-        ype: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'question'
     }
     
