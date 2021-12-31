@@ -8,7 +8,7 @@ const Question = require('../models/question')
 //getting all
 router.get ('/', async (req,res) => {
     try {
-        const reponse = await Reponse.find().populate('article')
+        const reponse = await Reponse.find()
         if (reponse.length>0){
             res.json({
                     reponse: reponse})
