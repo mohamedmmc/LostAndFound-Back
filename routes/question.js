@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Question = require('../models/question')
-
+const Article = require('../models/article')
 
 //getting all
 router.get ('/', async (req,res) => {
@@ -25,7 +25,10 @@ router.post ('/',async (req,res) => {
     })
     try {
         const newquestion = await question.save()
-        res.status(201).json({question:newquestion})
+        const articleWithQuestion = await Article.findById(newquestion.article)
+        articleWithQuestion.question = newquestion.id
+        const test = await articleWithQuestion.save()
+        res.status(201).json({articleConcerne:test})
 
     } catch (error) {
         res.status(400).json({message: error.message})
