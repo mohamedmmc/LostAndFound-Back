@@ -30,10 +30,6 @@ const Articlechema = new mongoose.Schema({
     user:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
-    },
-    question:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'question'
     }
     
 })
