@@ -6,7 +6,7 @@ const Article = require('../models/article')
 //getting all
 router.get ('/', async (req,res) => {
     try {
-        const question = await Question.find().populate('article').populate('reponse')
+        const question = await Question.find()
         res.json(question)
     } catch (error) {
         res.status(500).json({message: error.message})
