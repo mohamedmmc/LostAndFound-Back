@@ -10,7 +10,7 @@ const Article = require('../models/article')
 router.get ('/:id', async (req,res) => {
     try {
         const reponses = await Question.find({article:req.params.id})
-        res.json({reponses:reponses})
+        res.json({reponses:reponses.reponse})
     } catch (error) {
         res.status(500).json({message: error.message})
     }
