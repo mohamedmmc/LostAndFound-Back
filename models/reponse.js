@@ -6,6 +6,7 @@ const reponsehema = new mongoose.Schema({
         required:true
     },
     user: {
+        unique:true,
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     }
