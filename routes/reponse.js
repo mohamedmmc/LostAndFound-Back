@@ -9,9 +9,15 @@ const Article = require('../models/article')
 //getting all
 router.get ('/:id', async (req,res) => {
     try {
-        const reponses = await Question.findOne({article:req.params.id}).populate('reponse').populate('user')
-        console.log(reponses);
-        res.json({reponses:reponses.reponse})
+        var tableau = []
+        var test 
+        const reponses = await Question.findOne({article:req.params.id}).populate('reponse')
+
+        for (i=0; i<reponses.reponse.length;i++){
+            test = await Reponse.findById(reponses.reponse[i].id).populate('user')
+            tableau.push(test)
+        }
+        res.json({reponses:tableau})
     } catch (error) {
         res.status(500).json({message: error.message})
     }
