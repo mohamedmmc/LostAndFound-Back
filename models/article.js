@@ -34,7 +34,7 @@ const Articlechema = new mongoose.Schema({
     question:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'question'
-    }
+        }
     
 })
 

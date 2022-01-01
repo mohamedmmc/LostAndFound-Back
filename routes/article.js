@@ -96,7 +96,7 @@ async function getArticle(req,res,next){
 async function getArticlesByUser  (req,res,next){
     let articles
     try {
-        articles = await Article.find({ user: req.params.id }).populate('user')
+        articles = await Article.find({ user: req.params.id }).populate('user').populate('question')
         if (articles == null){
             res.json({message:"sans articles"})
         }
