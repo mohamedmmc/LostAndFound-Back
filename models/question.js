@@ -10,6 +10,7 @@ const questionchema = new mongoose.Schema({
         ref: 'reponse'
     }],
     article:{
+        unique:true,
         type:mongoose.Schema.Types.ObjectId,
         ref: 'article'
     }

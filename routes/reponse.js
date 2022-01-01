@@ -13,11 +13,18 @@ router.get ('/:id', async (req,res) => {
         var test 
         const reponses = await Question.findOne({article:req.params.id}).populate('reponse')
 
-        for (i=0; i<reponses.reponse.length;i++){
-            test = await Reponse.findById(reponses.reponse[i].id).populate('user')
-            tableau.push(test)
+        if( reponses.length > 0){
+            for (i=0; i<reponses.reponse.length;i++){
+                test = await Reponse.findById(reponses.reponse[i].id).populate('user')
+                tableau.push(test)
+            }
+            res.json({reponses:tableau})
         }
-        res.json({reponses:tableau})
+        else
+        {
+            res.json("no data")
+        }
+        
     } catch (error) {
         res.status(500).json({message: error.message})
     }
