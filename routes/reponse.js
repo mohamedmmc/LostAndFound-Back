@@ -9,7 +9,7 @@ const Article = require('../models/article')
 //getting all
 router.get ('/:id', async (req,res) => {
     try {
-        const reponses = await Question.findOne({article:req.params.id}).populate('reponse')
+        const reponses = await Question.findOne({article:req.params.id}).populate('reponse').populate('user')
         console.log(reponses);
         res.json({reponses:reponses.reponse})
     } catch (error) {
