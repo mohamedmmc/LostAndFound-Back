@@ -13,16 +13,17 @@ router.get ('/:id', async (req,res) => {
         var test 
         const reponses = await Question.findOne({article:req.params.id}).populate('reponse')
 
-        if( reponses.length > 0){
+        if(reponses.length == 0){
+            res.json("no data")
+
+        }
+        else
+        {
             for (i=0; i<reponses.reponse.length;i++){
                 test = await Reponse.findById(reponses.reponse[i].id).populate('user')
                 tableau.push(test)
             }
             res.json({reponses:tableau})
-        }
-        else
-        {
-            res.json("no data")
         }
         
     } catch (error) {
@@ -48,9 +49,14 @@ router.post ('/:id',getQuestion,async (req,res) => {
         const updatedQuestion = new Question(
             res.question
         )
-        const nezupdatedQuestion = await updatedQuestion.save()
+        try {
+            const nezupdatedQuestion = await updatedQuestion.save()
 
         res.json({question:nezupdatedQuestion})
+        } catch (error) {
+            console.log(error)
+        }
+        
     
 
     } catch (error) {
