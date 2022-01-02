@@ -115,7 +115,7 @@ router.delete ('/:id',getreponse,async (req,res) => {
 async function getreponse(req,res,next){
     let reponse
     try {
-        reponse = await reponse.findById(req.params.id)
+        reponse = await Reponse.findById(req.params.id)
         if (reponse == null){
             return res.status(404).json({message : "reponse non trouve"})
         }
