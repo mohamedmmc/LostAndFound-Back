@@ -107,9 +107,7 @@ router.delete ('/:id',getreponse,async (req,res) => {
         const QuestionAvecReponse = await Question.findOne({reponse:res.reponse})
         const ArticleAvecReponse = await Article.findOne({question:QuestionAvecReponse.id}).populate('question')
 
-        for (i=0; i< QuestionAvecReponse.reponse.length ; i++){
-            console.log("question q reponse a supprimer"+QuestionAvecReponse.reponse[i]);
-            
+        for (i=0; i< QuestionAvecReponse.reponse.length ; i++){            
             if (QuestionAvecReponse.reponse[i] == req.params.id){
                 for (j=0;j<ArticleAvecReponse.question.reponse.length;j++){
                   if (ArticleAvecReponse.question.reponse[j] == req.params.id){
@@ -119,9 +117,11 @@ router.delete ('/:id',getreponse,async (req,res) => {
                       console.log("tableau toulou : " + ArticleAvecReponse.question.reponse.length)
                       console.log("index : "  + j)
 
-                    ArticleAvecReponse.question.reponse.splice(j,1)
-                    await QuestionAvecReponse.reponse.splice(i,1)
-                     await res.reponse.remove()
+                     ArticleAvecReponse.question.reponse.splice(j,1)
+                     await ArticleAvecReponse.save()
+                     await QuestionAvecReponse.reponse.splice(i,1)
+                     await QuestionAvecReponse.save()
+                    //  await res.reponse.remove()
                   }
                 }
                  
