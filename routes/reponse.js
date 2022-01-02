@@ -104,8 +104,32 @@ router.patch ('/:id',getreponse,multer,async (req,res) => {
 //deleting one
 router.delete ('/:id',getreponse,async (req,res) => {
     try {
-        await res.reponse.remove()
-        res.json({message : "Supprime avec succes"})
+        const QuestionAvecReponse = await Question.findOne({reponse:res.reponse})
+        const ArticleAvecReponse = await Article.findOne({question:QuestionAvecReponse.id}).populate('question')
+
+        for (i=0; i< QuestionAvecReponse.reponse.length ; i++){
+            console.log("question q reponse a supprimer"+QuestionAvecReponse.reponse[i]);
+            
+            if (QuestionAvecReponse.reponse[i] == req.params.id){
+                for (j=0;j<ArticleAvecReponse.question.reponse.length;j++){
+                  if (ArticleAvecReponse.question.reponse[j] == req.params.id){
+
+
+                      console.log("ce qu'on va supprimer : " + ArticleAvecReponse.question.reponse[j])
+                      console.log("tableau toulou : " + ArticleAvecReponse.question.reponse.length)
+                      console.log("index : "  + j)
+
+                    ArticleAvecReponse.question.reponse.splice(j,1)
+                    await QuestionAvecReponse.reponse.splice(i,1)
+                     await res.reponse.remove()
+                  }
+                }
+                 
+                
+                return res.json({message : "on supprime"})
+            }
+        }
+        
     } catch (error) {
         res.json({message : error.message})
     }
