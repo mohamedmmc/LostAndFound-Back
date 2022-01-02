@@ -7,7 +7,7 @@ const cloudinary = require("../middleware/cloudinary")
 //getting all
 router.get ('/', async (req,res) => {
     try {
-        const article = await Article.find().populate('user')
+        const article = await Article.find().populate('user').populate('question')
         if (article.length>0){
             res.json({
                     articles: article})
