@@ -158,7 +158,7 @@ paths:
 
 #begin  of get articles by id
 
-  /articles/{id}:
+  /article/{id}:
    get:
     tags: 
     - Article
@@ -249,44 +249,7 @@ paths:
 #end of delete articles by id
 
 
-#begin  of get articles by type
 
-  /articles/type/{type}:
-   get:
-    tags: 
-    - Article
-    summary: Finds article by id
-    description: Finds article by id
-    parameters:
-      - in: path
-        name: type
-        description: put your article's type from this list :sweaters, pants, outlet, jacket, shoes,
-            Dress, Pc, Tv, Computers' accessories, make-up , Baby, Art Supplies, earrings, rings, bracelets, art deco, Other
-        schema:
-         type: string
-    responses:
-      '200':
-         description: A successful response
-#end of get articles by type
-
-#begin  of get articles by type
-
-  /articles/company/{brand}:
-   get:
-    tags: 
-    - Article
-    summary: this Api used to get one article from database
-    description: this api is used to get one article from database
-    parameters:
-      - in: path
-        name: brand
-        description: put your article's type 
-        schema:
-         type: string
-    responses:
-      '200':
-         description: A successful response
-#end of get articles by type
 
 #end Article 
 #############################
