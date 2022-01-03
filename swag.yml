@@ -73,7 +73,7 @@ paths:
 #Article 
 ############
 #begin of add article
-  /articles:
+  /article:
     post:
       tags:
       - Article
@@ -107,12 +107,12 @@ paths:
         in: formData
         description: quantity of article
         required: true
-        type: date
+        type: string
       - name: dateModif
         in: formData
         description: category of article sweaters, pants, outlet, jacket, shoes, Dress, Pc, Tv, make-up , Baby, Art, rings, bracelets, art deco, Other
         required: true
-        type: date 
+        type: string 
       - name: photo
         in: formData
         description: file to upload
