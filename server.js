@@ -18,7 +18,7 @@ var swaggerDefinition = {
         version: 'V1.0',
         description: 'Private showroom ',
     },
-    host: 'localhost:3000',
+    host: 'lost-and-found-back.herokuapp.com',
     basePath: '/',
 };
 // options for the swagger docs
