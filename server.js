@@ -38,7 +38,7 @@ const bodyParser = require("body-parser"),
 const options = {
   swaggerDefinition,
   // Paths to files containing OpenAPI definitions
-  apis: ['swagger.yml'],
+  apis: ['swag.yml'],
 };
 const swaggerSpec = swaggerJSDoc(options);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

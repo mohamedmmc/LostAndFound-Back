@@ -1,0 +1,1141 @@
+# host: Showapp.swagger.io
+# basePath: /v2
+tags:
+- name: Company
+  description: Access to Showapp Company
+- name: Admin
+  description: Everything about Admin
+- name: Facture
+  description: Operations about Facture
+- name: Favourite
+  description: Access to Showapp Favourite
+- name: News
+  description: Access to Showapp News
+- name: User
+  description: Access to Showapp User
+- name: Article
+  description: Access to Showapp Article
+# schemes:
+# - http
+paths:
+
+###############################################################################
+
+#Admin
+#begin signup
+  /admin/signup:
+    post:
+      tags:
+      - Admin
+      summary: Add Admin
+      operationId: Admin
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: order placed for purchasing the pet
+        required: true
+        schema:
+          $ref: '#/definitions/Admin'
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: Invalid Admin
+#end signup
+
+#begin login
+  /admin/login:
+    post:
+      tags:
+      - Admin
+      summary: Add Admin
+      operationId: Admin
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: order placed for purchasing the pet
+        required: true
+        schema:
+          $ref: '#/definitions/Admin'
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: Invalid Admin
+#end login
+#end Admin
+
+############
+#Article 
+############
+#begin of add article
+  /articles:
+    post:
+      tags:
+      - Article
+      summary: Add a new article 
+      operationId: addArticle
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      parameters:
+      - in: formData
+        name: nom     
+        required: true
+        type: string
+      - in: formData
+        name: description
+        description: name of article
+        required: true
+        type: string
+      - name: addresse
+        in: formData
+        description: category of article :mode, high tech, beauty, baby, Jewellery, art deco
+        required: true
+        type: string 
+      - name: type
+        in: formData
+        description: price of article
+        required: true
+        type: string
+      - name: dateCreation
+        in: formData
+        description: quantity of article
+        required: true
+        type: date
+      - name: dateModif
+        in: formData
+        description: category of article sweaters, pants, outlet, jacket, shoes, Dress, Pc, Tv, make-up , Baby, Art, rings, bracelets, art deco, Other
+        required: true
+        type: date 
+      - name: photo
+        in: formData
+        description: file to upload
+        required: false
+        type: file 
+      - name: user
+        in: formData
+        description: price of article
+        required: true
+        type: string 
+      - name: question
+        in: formData
+        description: price of article
+        required: true
+        type: string
+
+        schema:
+          $ref: '#/definitions/Article'
+
+
+      responses:
+        200:
+          description: article added with
+        405:
+          description: Invalid input
+#end of add article
+#begin get all article
+    get:
+      tags:
+      - Article
+      summary: Finds all article 
+      description: Finds all article
+      operationId: findArticle
+      produces:
+      - application/json
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: Invalid status value
+#end get all article
+
+
+#begin  of get articles by id
+
+  /articles/{id}:
+   get:
+    tags: 
+    - Article
+    summary: Finds article by id
+    description: Finds article by id
+    parameters:
+      - in: path
+        name: id
+        description: put your article id 
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+#end of get articles by id
+#update article
+   put:
+      tags:
+      - Article
+      summary: Add a new article 
+      operationId: addArticle
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: put your article id 
+      - in: formData
+        name: name
+        description: name of article
+        required: true
+        type: string
+      - name: category
+        in: formData
+        description: category of article :mode, high tech, beauty, baby, Jewellery, art deco
+        required: true
+        type: string 
+      - name: price
+        in: formData
+        description: price of article
+        required: true
+        type: string
+      - name: quantity
+        in: formData
+        description: quantity of article
+        required: true
+        type: integer
+      - name: type
+        in: formData
+        description: category of article sweaters, pants, outlet, jacket, shoes, Dress, Pc, Tv, make-up , Baby, Art, rings, bracelets, art deco, Other
+        required: true
+        type: string 
+      - name: articlePicture
+        in: formData
+        description: file to upload
+        required: false
+        type: file
+
+        schema:
+          $ref: '#/definitions/Article'
+
+
+      responses:
+        200:
+          description: article added with
+        405:
+          description: Invalid input
+#end update article
+#begin of delete articles by id
+   delete:
+    tags: 
+    - Article
+    summary: delete article by id
+    description: delete article by id
+    parameters:
+      - in: path
+        name: id
+        description: put your article id 
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+      '404':
+         description: article not found
+#end of delete articles by id
+
+
+#begin  of get articles by type
+
+  /articles/type/{type}:
+   get:
+    tags: 
+    - Article
+    summary: Finds article by id
+    description: Finds article by id
+    parameters:
+      - in: path
+        name: type
+        description: put your article's type from this list :sweaters, pants, outlet, jacket, shoes,
+            Dress, Pc, Tv, Computers' accessories, make-up , Baby, Art Supplies, earrings, rings, bracelets, art deco, Other
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+#end of get articles by type
+
+#begin  of get articles by type
+
+  /articles/company/{brand}:
+   get:
+    tags: 
+    - Article
+    summary: this Api used to get one article from database
+    description: this api is used to get one article from database
+    parameters:
+      - in: path
+        name: brand
+        description: put your article's type 
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+#end of get articles by type
+
+#end Article 
+#############################
+#COMPANY
+#############################
+
+#signup company
+  /company/signup :
+    post:
+      tags:
+      - Company
+      summary: Add a new article 
+      operationId: addArticle
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      parameters:
+      - in: formData
+        name: emailCompany     
+        required: true
+        type: string
+      - in: formData
+        name: passwordCompany
+        required: true
+        type: string
+      - name: lastNameCompany
+        in: formData
+        required: true
+        type: string 
+      - name: firstNameCompany
+        in: formData
+        required: true
+        type: string
+      - name: phoneNumberCompany
+        in: formData
+        required: true
+        type: integer
+      - name: categoryCompany
+        in: formData
+        description: category of article :mode, high tech, beauty, baby, Jewellery, art deco
+        required: true
+        type: string 
+      - name: businessNameCompany
+        in: formData
+        required: true
+        type: string 
+      - name: brandPicCompany
+        in: formData
+        description: file to upload
+        required: false
+        type: file
+
+        schema:
+          $ref: '#/definitions/Article'
+
+
+      responses:
+        200:
+          description: article added with
+        405:
+          description: Invalid input
+#end signup company
+
+#login company
+  /company/login:
+    post:
+      tags:
+      - Company
+      summary: Add Company
+      operationId: Company
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: emailCompany and password    
+        required: true
+        type: string
+
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: Invalid Company
+#end login company
+
+#get all company
+  /company:
+    get:
+      tags:
+      - Company
+      summary: Finds all Company 
+      description: Finds all Company
+      operationId: findCompany
+      produces:
+      - application/json
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: Invalid status value
+#end of get all comapny
+
+#begin  of get Company by id
+
+  /company/{id}:
+   get:
+    tags: 
+    - Company
+    summary: Finds Company by id
+    description: Finds Company by id
+    parameters:
+      - in: path
+        name: id
+        description: put your Company id 
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+#end of get Company by id
+#begin of delete Company by id
+   delete:
+    tags: 
+    - Company
+    summary: Company article by id
+    description: Company article by id
+    parameters:
+      - in: path
+        name: id
+        description: put your Company id 
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+      '404':
+         description: Company not found
+#end of delete Company by id
+#begin put company
+   put:
+     tags:
+     - Company
+     summary: Updated Company
+     description: update Company.
+     operationId: updateCompany
+     produces:
+     - application/json
+     - application/xml
+     parameters:
+     - name: emailCompany
+       in: path
+       description: name that need to be updated
+       required: true
+       type: string
+     - in: body
+       name: body
+       description: Updated Company object
+       required: true
+       schema:
+         $ref: '#/definitions/Company'
+     responses:
+       400:
+         description: Invalid Company supplied
+       404:
+         description: Company not found
+#end put company
+
+#end company 
+
+###############
+#facture
+###############
+
+#begin add facture
+  /factures/add:
+    post:
+      tags:
+      - Facture
+      summary: Add Facture
+      operationId: Facture
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: order placed for purchasing the pet
+        required: true
+        schema:
+          $ref: '#/definitions/Facture'
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: Invalid Admin
+#end add factture
+#begin  of get facture by id
+
+  /factures/refuser/{refuser}:
+   get:
+    tags: 
+    - Facture
+    summary: Finds factures by id
+    description: Finds factures by id
+    parameters:
+      - in: path
+        name: refuser
+        description: put the reference user id to get all facture related to him
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+#end of get facture by id
+#begin of delete facture by id and refuser
+  /factures/{id}/{refuser}:
+
+   delete:
+    tags: 
+    - Facture
+    summary: delete factures by id
+    description: delete factures by id
+    parameters:
+      - in: path
+        name: id
+        description: put your factures id 
+      - in: path
+        name: refuser
+        description: put your factures user reference
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+      '404':
+         description: Company not found
+#end of delete facture by id and refuser
+#begin of delete facture by id facturer
+  /factures/{id}:
+
+   delete:
+    tags: 
+    - Facture
+    summary: delete factures by id
+    description: delete factures by id
+    parameters:
+      - in: path
+        name: id
+        description: put your factures id 
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+      '404':
+         description: Company not found
+#end of delete facture
+#begin of get facture by id facture
+   get:
+    tags: 
+    - Facture
+    summary: get factures by id
+    description: get factures by id
+    parameters:
+      - in: path
+        name: id
+        description: put your factures id 
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+      '404':
+         description: Company not found
+
+#end facture
+
+#################
+#favourite
+#################
+
+#begin favourite
+#begin add favourite
+  /favorites/add:
+    post:
+      tags:
+      - Favourite
+      summary: add Favourite
+      operationId: add Favourite
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: body
+        description: order placed for purchasing the pet
+        required: true
+        schema:
+          $ref: '#/definitions/Favourite'
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Order'
+        400:
+          description: Invalid Order
+#end add favourite
+
+#begin get favourite by id
+  /favorites/{id}:
+   get:
+    tags: 
+    - Favourite
+    summary: Finds favourite by id
+    description: Finds favourite by id
+    parameters:
+      - in: path
+        name: id
+        description: put your favourite article id 
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+      '404':
+         description: Company not found
+#end get favourite by id
+
+#begin of delete Favourite by id
+   delete:
+    tags: 
+    - Favourite
+    summary: delete Favourite aticle
+    description: delete Favourite aticle
+    parameters:
+      - in: path
+        name: id
+        description: put your Favourite id 
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+      '404':
+         description: Company not found
+#end of delete Favourite by id
+
+#begin get favourite by refArticle
+  /refArticle/{refArticle}:
+   get:
+    tags: 
+    - Favourite
+    summary: Finds favourite by id
+    description: Finds favourite by id
+    parameters:
+      - in: path
+        name: refArticle
+        description: put your reference article id 
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+      '404':
+         description: Company not found
+#end get favourite by refArticle
+
+#begin of delete favourite by refArticle and refuser
+  /factures/{refArticle}/{refuser}:
+
+   delete:
+    tags: 
+    - Facture
+    summary: delete factures by id
+    description: delete factures by id
+    parameters:
+      - in: path
+        name: refArticle
+        description: put your factures id 
+      - in: path
+        name: refuser
+        description: put your factures user reference
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+      '404':
+         description: Company not found
+#end of delete factureby refArticle and refuser
+
+#begin get favourite by refuser
+  /refuser/{refuser}:
+   get:
+    tags: 
+    - Favourite
+    summary: Finds favourite by refuser
+    description: Finds favourite by refuser
+    parameters:
+      - in: path
+        name: refuser
+        description: put your reference user id 
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+      '404':
+         description: Company not found
+#end get favourite by refuser
+
+###########
+#user
+###########
+
+
+#signup user
+  /users/signup :
+    post:
+      tags:
+      - User
+      summary: Add a new users 
+      operationId: addusers
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      parameters:
+      - in: formData
+        name: email     
+        required: true
+        type: string
+      - in: formData
+        name: password
+        required: true
+        type: string
+      - name: firstName
+        in: formData
+        required: true
+        type: string 
+      - name: lastName
+        in: formData
+        required: true
+        type: string
+      - name: phoneNumber
+        in: formData
+        required: true
+        type: integer
+      - name: verified
+        in: formData
+        required: true
+        type: boolean 
+      - name: profilePicture
+        in: formData
+        description: file to upload
+        required: false
+        type: file
+
+        schema:
+          $ref: '#/definitions/Article'
+
+
+      responses:
+        200:
+          description: article added with
+        405:
+          description: Invalid input
+#end signup user
+
+#login user
+  /users/login:
+    post:
+      tags:
+      - User
+      summary: Add user
+      operationId: user
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: email and password    
+        required: true
+        type: string
+
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: Invalid Company
+#end login user
+
+#forget password send token user
+  /users/reset:
+    post:
+      tags:
+      - User
+      summary: reset user password
+      operationId: reset user password
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: email     
+        required: true
+        type: string
+
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: Invalid Company
+#end forget password
+# password update token user
+    patch:
+      tags:
+      - User
+      summary: reset user password
+      operationId: reset user password
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: email code and new password     
+        required: true
+        type: string
+
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: Invalid Company
+#end login user
+
+#get all user
+  /users:
+   get:
+      tags:
+      - User
+      summary: Finds all User 
+      description: Finds all User
+      operationId: findUser
+      produces:
+      - application/json
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: Invalid status value
+#end of get all User
+
+#begin  of get User by id
+  /users/{id}:
+   get:
+    tags: 
+    - User
+    summary: Finds User by id
+    description: Finds User by id
+    parameters:
+      - in: path
+        name: id
+        description: put your User id 
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+#end get user by id
+#begin of delete user by id
+   delete:
+    tags: 
+    - User
+    summary: Company User by id
+    description: Company User by id
+    parameters:
+      - in: path
+        name: id
+        description: put your User id 
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+      '404':
+         description: Company not found
+#end of delete user by id
+
+###########
+#news
+###########
+
+#add news
+  /news :
+    post:
+      tags:
+      - News
+      summary: Add a new News 
+      operationId: addNews
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      parameters:
+      - in: formData
+        name: BrandsName     
+        required: true
+        type: string
+      - in: formData
+        name: title
+        required: true
+        type: string
+      - name: newsPicture
+        in: formData
+        description: file to upload
+        required: false
+        type: file
+
+        schema:
+          $ref: '#/definitions/News'
+
+
+      responses:
+        200:
+          description: article added with
+        405:
+          description: Invalid input
+#end news
+
+#end get news
+
+  get:
+      tags:
+      - News
+      summary: Finds all User 
+      description: Finds all User
+      operationId: findUser
+      produces:
+      - application/json
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: Invalid status value
+#end get news
+
+#begin  of get News by id
+  /news/{id}:
+   get:
+    tags: 
+    - News
+    summary: Finds News by id
+    description: Finds News by id
+    parameters:
+      - in: path
+        name: id
+        description: put your News id 
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+#end get News by id
+
+#begin of delete News by id
+   delete:
+    tags: 
+    - News
+    summary: delete News by id
+    description: delete News by id
+    parameters:
+      - in: path
+        name: id
+        description: put your News id 
+        schema:
+         type: string
+    responses:
+      '200':
+         description: A successful response
+      '404':
+         description: Company not found
+#end of delete News by id
+
+
+
+
+
+#######################################################################
+#Models 
+definitions:
+
+#article
+  Article:
+    properties:
+      nom:
+        type: String
+      description:
+        type: string
+      photo:
+        type: string
+      dateCreation:
+        type: Date 
+      quantity :
+        type: integer
+      dateModif:
+        type : type
+      user :   
+        type: String
+      question :   
+        type: String
+    xml:
+      name: article
+#Article end
+
+##########
+
+#company
+  Company:
+    type: object
+    properties:
+      emailCompany:
+        type: string
+      passwordCompany:
+        type: string
+      phoneNumberCompany:
+        type: integer
+      lastNameCompany:
+        type: string
+      firstNameCompany:
+        type: string
+      brandPicCompany:
+        type: string
+      categoryCompany:
+        type: categoryCompany 
+        enum:
+        - mode
+        - high tech
+        - beauty
+        - baby
+        - Jewellery
+        - art deco
+      businessNameCompany:
+        type: string
+      verifiedCompany:
+        type: boolean
+    xml:
+      name: Category
+#end company
+
+#########
+#admin
+  Admin:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+#end admin
+
+########
+
+#facture
+  Facture:
+    type: object
+    properties:
+      refArticle:
+        type: string
+      refuser:
+        type: string
+      name:
+        type: string
+      price:
+        type: string
+      cartPicture:
+        type: string
+      qte:
+        type: string
+#end facture
+
+########
+
+#favourite
+  Favourite:
+    type: object
+    properties:
+      refArticle:
+        type: string
+      refuser:
+        type: string
+      name:
+        type: string
+      price:
+        type: string
+      favPicture:
+        type: string
+#end fav
+
+##########
+
+#user
+
+  User:
+    type: object
+    properties:
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      password:
+        type: string
+      phone:
+        type: integer
+      verified:
+        type: boolean
+        description: User Status
+    xml:
+      name: User
+
+########
+
+#News
+  News:
+    type: object
+    properties:
+      BrandsName:
+        type: string
+      title:
+        type: string
+      newsPicture:
+        type: string
+#end News
+
+
+
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /G6649/Showapp/1.0.0
+schemes:
+ - https
+ - http
