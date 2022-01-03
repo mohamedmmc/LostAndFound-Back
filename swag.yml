@@ -50,7 +50,7 @@ paths:
         in: formData
         description: category of article :mode, high tech, beauty, baby, Jewellery, art deco
         required: false
-        type: string 
+        type: double 
       - name: type
         in: formData
         description: price of article
