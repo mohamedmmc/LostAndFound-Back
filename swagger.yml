@@ -7,7 +7,7 @@ ags:
 paths:
 #Admin
 #begin signup
-  /user/login:
+  /user:
     post:
       tags:
       - User
