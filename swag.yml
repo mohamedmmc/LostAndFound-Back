@@ -47,10 +47,10 @@ paths:
         required: false
         type: string
       - name: addresse
-        in: body
+        in: formData
         description: category of article :mode, high tech, beauty, baby, Jewellery, art deco
         required: false
-        type: float 
+        type: intege 
       - name: type
         in: formData
         description: price of article
@@ -912,7 +912,7 @@ definitions:
       dateCreation:
         type: Date 
       addresse :
-        type: float
+        type: double
       dateModif:
         type : type
       user :   
