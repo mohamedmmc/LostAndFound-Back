@@ -304,7 +304,7 @@ paths:
 #end login user
 
 #forget password send token user
-  /users/reset:
+  /user/forgotPassword:
     post:
       tags:
       - User
