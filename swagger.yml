@@ -7,26 +7,56 @@ ags:
 paths:
 #Admin
 #begin signup
-  /user:
+  /users/signup :
     post:
       tags:
       - User
-      summary: Add Admin
-      operationId: Admin
+      summary: Add a new users 
+      operationId: addusers
+      consumes:
+      - multipart/form-data
       produces:
       - application/json
       parameters:
-      - in: body
-        name: body
-        description: order placed for purchasing the pet
+      - in: formData
+        name: email     
         required: true
+        type: string
+      - in: formData
+        name: password
+        required: true
+        type: string
+      - name: prenom
+        in: formData
+        required: true
+        type: string 
+      - name: nom
+        in: formData
+        required: true
+        type: string
+      - name: numt
+        in: formData
+        required: true
+        type: integer
+      - name: isVerified
+        in: formData
+        required: true
+        type: boolean 
+      - name: photoProfil
+        in: formData
+        description: file to upload
+        required: false
+        type: file
+
         schema:
-          $ref: '#/definitions/Admin'
+          $ref: '#/definitions/User'
+
+
       responses:
         200:
-          description: successful operation
-        400:
-          description: Invalid Admin
+          description: user added with
+        405:
+          description: Invalid input
     get:
       tags:
       - User
@@ -41,4 +71,25 @@ paths:
         400:
           description: Invalid status value
 
-#end signup
+definitions:
+
+#User
+  User:
+    type: object
+    properties:
+      email:
+        type: string
+      nom:
+        type: string
+      prenom:
+        type: string
+      password:
+        type: string
+      photoProfil:
+        type: string
+      isVerified:
+        type: boolean
+        description: User Status
+    xml:
+      name: User
+#end News
