@@ -254,7 +254,7 @@ paths:
         type: file
 
         schema:
-          $ref: '#/definitions/Article'
+          $ref: '#/definitions/User'
 
 
       responses:
