@@ -3,6 +3,8 @@
 tags:
 - name: Article
   description: Access to Showapp Article
+- name: User
+  description: Access to Showapp User
 - name: Company
   description: Access to Showapp Company
 - name: Admin
@@ -13,8 +15,7 @@ tags:
   description: Access to Showapp Favourite
 - name: News
   description: Access to Showapp News
-- name: User
-  description: Access to Showapp User
+
 
 # schemes:
 # - http
@@ -350,7 +351,7 @@ paths:
 
 
 #begin  of get User by id
-  /users/{id}:
+  /user/{id}:
    get:
     tags: 
     - User
