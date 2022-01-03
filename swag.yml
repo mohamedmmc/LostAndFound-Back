@@ -1,6 +1,8 @@
 # host: Showapp.swagger.io
 # basePath: /v2
 tags:
+- name: Article
+  description: Access to Showapp Article
 - name: Company
   description: Access to Showapp Company
 - name: Admin
@@ -13,63 +15,13 @@ tags:
   description: Access to Showapp News
 - name: User
   description: Access to Showapp User
-- name: Article
-  description: Access to Showapp Article
+
 # schemes:
 # - http
 paths:
 
 ###############################################################################
 
-#Admin
-#begin signup
-  /admin/signup:
-    post:
-      tags:
-      - Admin
-      summary: Add Admin
-      operationId: Admin
-      produces:
-      - application/json
-      parameters:
-      - in: body
-        name: body
-        description: order placed for purchasing the pet
-        required: true
-        schema:
-          $ref: '#/definitions/Admin'
-      responses:
-        200:
-          description: successful operation
-        400:
-          description: Invalid Admin
-#end signup
-
-#begin login
-  /admin/login:
-    post:
-      tags:
-      - Admin
-      summary: Add Admin
-      operationId: Admin
-      produces:
-      - application/json
-      parameters:
-      - in: body
-        name: body
-        description: order placed for purchasing the pet
-        required: true
-        schema:
-          $ref: '#/definitions/Admin'
-      responses:
-        200:
-          description: successful operation
-        400:
-          description: Invalid Admin
-#end login
-#end Admin
-
-############
 #Article 
 ############
 #begin of add article
@@ -253,6 +205,55 @@ paths:
 
 #end Article 
 #############################
+#Admin
+#begin signup
+  /admin/signup:
+    post:
+      tags:
+      - Admin
+      summary: Add Admin
+      operationId: Admin
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: order placed for purchasing the pet
+        required: true
+        schema:
+          $ref: '#/definitions/Admin'
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: Invalid Admin
+#end signup
+
+#begin login
+  /admin/login:
+    post:
+      tags:
+      - Admin
+      summary: Add Admin
+      operationId: Admin
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: order placed for purchasing the pet
+        required: true
+        schema:
+          $ref: '#/definitions/Admin'
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: Invalid Admin
+#end login
+#end Admin
+
+############
 #COMPANY
 #############################
 
