@@ -10,38 +10,37 @@ const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const bodyParser = require("body-parser"),
 
- swaggerDefinition = {
-  openapi: '3.0.0',
-  info: {
-    title: 'Express API for JSONPlaceholder',
-    version: '1.0.0',
-    description:
-      'This is a REST API application made with Express. It retrieves data from JSONPlaceholder.',
-    license: {
-      name: 'Licensed Under MIT',
-      url: 'https://spdx.org/licenses/MIT.html',
+/////////////////swagger
+
+// swagger definition
+const swaggerUi = require('swagger-ui-express');
+var swaggerDefinition = {
+    info: {
+        title: 'Showapp Application',
+        version: 'V1.0',
+        description: 'Private showroom ',
     },
-    contact: {
-      name: 'JSONPlaceholder',
-      url: 'https://jsonplaceholder.typicode.com',
-    },
-  },
-  servers: [
-    {
-      url: 'https://lost-and-found-back.herokuapp.com',
-      description: 'Development server',
-    },
-  ],
-  
+    host: 'localhost:3000',
+    basePath: '/',
+};
+// options for the swagger docs
+var options = {
+    // import swaggerDefinitions
+    swaggerDefinition: swaggerDefinition,
+    // path to the API docs
+    apis: ['./swagger.yml'],
 };
 
-const options = {
-  swaggerDefinition,
-  // Paths to files containing OpenAPI definitions
-  apis: ['swag.yml'],
-};
-const swaggerSpec = swaggerJSDoc(options);
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// initialize swagger-jsdoc
+var swaggerSpec = swaggerJSDoc(options);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.get('/swagger.json', function(req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(swaggerSpec);
+});
+
+/////////////////fin swagger
 let port = process.env.PORT;
 if (port == null || port == "") {
   port = 3000;
