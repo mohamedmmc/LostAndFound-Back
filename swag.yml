@@ -86,32 +86,32 @@ paths:
       parameters:
       - in: formData
         name: nom     
-        required: true
+        required: false
         type: string
       - in: formData
         name: description
         description: name of article
-        required: true
+        required: false
         type: string
       - name: addresse
         in: formData
         description: category of article :mode, high tech, beauty, baby, Jewellery, art deco
-        required: true
+        required: false
         type: string 
       - name: type
         in: formData
         description: price of article
-        required: true
+        required: false
         type: string
       - name: dateCreation
         in: formData
         description: quantity of article
-        required: true
+        required: false
         type: string
       - name: dateModif
         in: formData
         description: category of article sweaters, pants, outlet, jacket, shoes, Dress, Pc, Tv, make-up , Baby, Art, rings, bracelets, art deco, Other
-        required: true
+        required: false
         type: string 
       - name: photo
         in: file
@@ -121,12 +121,12 @@ paths:
       - name: user
         in: formData
         description: price of article
-        required: true
+        required: false
         type: string 
       - name: question
         in: formData
         description: price of article
-        required: true
+        required: false
         type: string
 
         schema:
