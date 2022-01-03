@@ -47,7 +47,7 @@ paths:
         required: false
         type: string
       - name: addresse
-        in: formData
+        in: body
         description: category of article :mode, high tech, beauty, baby, Jewellery, art deco
         required: false
         type: double 
