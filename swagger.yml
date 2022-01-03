@@ -47,11 +47,6 @@ paths:
         description: file to upload
         required: false
         type: file
-
-        schema:
-          $ref: '#/definitions/User'
-
-
       responses:
         200:
           description: user added with
