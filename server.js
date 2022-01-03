@@ -14,9 +14,9 @@ const bodyParser = require("body-parser");
 // swagger definition
 var swaggerDefinition = {
     info: {
-        title: 'Showapp Application',
+        title: 'Lost And Found Application',
         version: 'V1.0',
-        description: 'Private showroom ',
+        description: 'Une application pour trouver vos object perdu ou trouvé',
     },
     host: 'lost-and-found-back.herokuapp.com',
     basePath: '/',
