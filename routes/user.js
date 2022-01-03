@@ -13,76 +13,6 @@ const bcryptjs = require ('bcryptjs')
 const article = require('../models/article')
 
 
-//....................................
-//add User
-
-/**
-* @swagger 
-* tags:
-*  name: User
-*  description: This is for the main User
-* /user:
-*  post:
-*   tags: [User]
-*   summary: Creates a new user.
-*   requestBody:
-*      content:
-*       application/json:
-*         schema:
-*           type: object
-*           properties:
-*             identifant:
-*              type: string
-*             email:
-*              type: string
-*             password:
-*              type: string
-*             phoneNumber:
-*              type: number
-*             profilePicture:
-*              type: string
-*             FirstName:
-*              type: string
-*             LastName:
-*              type: string
-*             verified:
-*              type: boolean
-*             className:
-*              type: string
-*             social:
-*              type: boolean
-*             role:
-*              type: string
-*             description:
-*              type: string
-*  responses:
-*      201:
-*         description: Created
- */
-
-
-
- /**
-  * @swagger
- 
-
- * /user:
- *   description: The users managing API
- *   get:
- *     summary: Returns the list of all the users
- *     tags: [usres]
- *     responses:
- *       200:
- *         description: The list users
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/user'
-  *       500:
- *         description: user error
- */
 
 router.get ('/', async (req,res) => {
     try {
@@ -98,28 +28,7 @@ router.get ('/', async (req,res) => {
 
 
 //getting one
-// get one user
 
-/**
-* @swagger
-* tags:
-*  name: User
-*  description: This is for the main User
-* /user/{email}:
-*  get:
-*   tags: [User]
-*   summary: this Api used to get one user from database
-*   description: this api is used to get one user from database
-*   parameters:
-*     - in: path
-*       name: email
-*       description: Must provide  email 
-*       schema:
-*        type: string
-*   responses:
-*     '200':
-*        description: A successful response
-*/
 router.get ('/:id',authentificateToken,getUserById,(req,res) => {
     res.json(res.user)
 })
@@ -416,27 +325,6 @@ router.patch ('/:id',getUserById,multer,async (req,res) => {
 //deleting one
 
 
-
-/**
-* @swagger
-* tags:
-*  name: User
-*  description: This is for the main User
-* /user/{id}:
-*  delete:
-*   tags: [User]
-*   summary: this Api used to delete user from database
-*   description: this api is used to delete  users from database
-*   parameters:
-*     - in: path
-*       name: id
-*       description: Must provide  id 
-*       schema:
-*        type: string
-*   responses:
-*     200:
-*        description: A successful response
-*/
 router.delete ('/:id',getUserById,async (req,res) => {
     try {
         //get all user articles and delete them
