@@ -1,0 +1,44 @@
+ags:
+- name: User
+  description: Access to Users of Lost And Found
+
+
+
+paths:
+#Admin
+#begin signup
+  /user/login:
+    post:
+      tags:
+      - User
+      summary: Add Admin
+      operationId: Admin
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: order placed for purchasing the pet
+        required: true
+        schema:
+          $ref: '#/definitions/Admin'
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: Invalid Admin
+    get:
+      tags:
+      - User
+      summary: Finds all User 
+      description: Finds all User
+      operationId: findUser
+      produces:
+      - application/json
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: Invalid status value
+
+#end signup
