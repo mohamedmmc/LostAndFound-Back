@@ -28,7 +28,7 @@ const bodyParser = require("body-parser"),
   },
   servers: [
     {
-      url: 'http://localhost:3000',
+      url: 'https://lost-and-found-back.herokuapp.com',
       description: 'Development server',
     },
   ],
