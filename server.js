@@ -8,12 +8,10 @@ const path = require('path')
 mongoose.connect(process.env.DB_URL, {useNewUrlParser: true})
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-const bodyParser = require("body-parser"),
-
+const bodyParser = require("body-parser");
 /////////////////swagger
 
 // swagger definition
-const swaggerUi = require('swagger-ui-express');
 var swaggerDefinition = {
     info: {
         title: 'Showapp Application',
@@ -28,7 +26,7 @@ var options = {
     // import swaggerDefinitions
     swaggerDefinition: swaggerDefinition,
     // path to the API docs
-    apis: ['./swagger.yml'],
+    apis: ['./swag.yml'],
 };
 
 // initialize swagger-jsdoc
