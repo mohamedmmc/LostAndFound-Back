@@ -224,30 +224,30 @@ paths:
       - application/json
       parameters:
       - in: formData
-        name: email     
+        name: nom     
         required: true
         type: string
       - in: formData
-        name: password
+        name: prenom
         required: true
         type: string
-      - name: firstName
+      - name: email
         in: formData
         required: true
         type: string 
-      - name: lastName
+      - name: password
         in: formData
         required: true
         type: string
-      - name: phoneNumber
+      - name: numt
         in: formData
         required: true
         type: integer
-      - name: verified
+      - name: isVerified
         in: formData
         required: true
         type: boolean 
-      - name: profilePicture
+      - name: photoProfil
         in: formData
         description: file to upload
         required: false
