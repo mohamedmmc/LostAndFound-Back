@@ -2,11 +2,11 @@
 # basePath: /v2
 tags:
 - name: Article
-  description: Access to Showapp Article
+  description: Access to Lost&Found Article
 - name: User
-  description: Access to Showapp User
+  description: Access to Lost User
 - name: Company
-  description: Access to Showapp Company
+  description: Access to Lost Company
 - name: Admin
   description: Everything about Admin
 - name: Facture
