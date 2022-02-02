@@ -347,7 +347,7 @@ router.delete ('/:id',getUserById,async (req,res) => {
 
 //creating one Using Social Media
 router.post ('/Social',multer,async (req,res) => {
-    console.log("hello");
+    
     await User.init();
 
     const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
