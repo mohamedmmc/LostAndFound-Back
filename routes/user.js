@@ -1,3 +1,5 @@
+require("dotenv").config()
+
 const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
@@ -56,7 +58,7 @@ router.post ('/',multer,async (req,res) => {
             service: 'gmail',
             auth: {
                 user: 'fanart3a18@gmail.com',
-                pass: '3A18java123'
+                pass: process.env.MDPMail
             }
         });
 
@@ -369,7 +371,7 @@ router.post ('/Social',multer,async (req,res) => {
             service: 'gmail',
             auth: {
                 user: 'fanart3a18@gmail.com',
-                pass: '3A18java123'
+                pass: process.env.MDPMail
             }
         });
 
@@ -583,7 +585,7 @@ router.post('/resendConfirmation/:id',getUserById,async (req,res,next) =>{
             service: 'gmail',
             auth: {
                 user: 'fanart3a18@gmail.com',
-                pass: '3A18java123'
+                pass: process.env.MDPMail
             }
         });
         console.log(token);
@@ -1297,7 +1299,7 @@ router.post('/forgotPassword',getUserByMail, (req, res, next) => {
                 service: 'gmail',
                 auth: {
                     user: 'fanart3a18@gmail.com',
-                    pass: '3A18java123'
+                    pass: process.env.MDPMail
                 }
             });
 
@@ -1368,7 +1370,7 @@ function mail (req,res,next){
         service: 'gmail',
         auth: {
             user: 'fanart3a18@gmail.com',
-            pass: '3A18java123'
+            pass: process.env.MDPMail
         }
     });
 
