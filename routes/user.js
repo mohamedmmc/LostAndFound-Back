@@ -280,7 +280,7 @@ router.post ('/',multer,async (req,res) => {
             
         });
         const newUser = await user.save()
-        res.status(201).json({token:tokenJWT,
+        res.status(201).json({token:token,
             user:user,
         reponse: "good"})
 } catch (error) {
