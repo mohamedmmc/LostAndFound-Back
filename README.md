@@ -16,15 +16,14 @@ Our application is name Lost & Found and is developped in Swift for The client a
 <p align="center"><project-description></p>
 
 ## Links
-
-- [Backend for NFT marketplace](https://github.com/mohamedmmc/LostAndFound-Back)
+- Swagger http://lost-and-found-back.herokuapp.com/api-docs/#/
 - [Node js] (https://nodejs.org/en/download/)
 
 ## Available Commands
 
 In the project directory, you can run:
 
-### npm install" : "npm install express": "npm dev start",
+### npm install" : "npm install express": "npm start",
 
 The app is built using JavaScript. Open [http://localhost:3000](http://localhost:3000) to test APIs with POSTMAN. You also need to run the server file as well to completely run the app. The page will reload if you make edits.
 You will also see any lint errors in the console.
