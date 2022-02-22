@@ -363,7 +363,7 @@ router.post ('/Social',multer,async (req,res) => {
         user.photoProfil = photoCloudinary.url
     }
     const tokenJWT = jwt.sign({username: req.body.email}, "SECRET")
-console.log(user)
+    console.log("user",user)
     
     try {
         var token = new Token({ email: user.email, token: crypto.randomBytes(16).toString('hex') });
