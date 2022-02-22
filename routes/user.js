@@ -352,14 +352,17 @@ router.post ('/Social',multer,async (req,res) => {
     
     await User.init();
 
-    const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
     
     const user = new User({
         nom: req.body.nom,
         prenom: req.body.prenom,
-        email: req.body.email,
-        photoProfil: photoCloudinary.url
+        email: req.body.email
     })
+
+    if (req.file != null){
+        const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
+        user.photoProfil = photoCloudinary.url
+    }
     const tokenJWT = jwt.sign({username: req.body.email}, "SECRET")
 
     
