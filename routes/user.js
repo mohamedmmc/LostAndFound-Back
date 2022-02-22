@@ -352,9 +352,6 @@ router.post ('/Social',multer,async (req,res) => {
     
     await User.init();
 
-    console.log(req.body)
-    console.log(req.file)
-    
     const user = new User({
         nom: req.body.nom,
         prenom: req.body.prenom,
@@ -366,7 +363,7 @@ router.post ('/Social',multer,async (req,res) => {
         user.photoProfil = photoCloudinary.url
     }
     const tokenJWT = jwt.sign({username: req.body.email}, "SECRET")
-
+console.log(user)
     
     try {
         var token = new Token({ email: user.email, token: crypto.randomBytes(16).toString('hex') });
@@ -561,12 +558,17 @@ router.post ('/Social',multer,async (req,res) => {
             }
             
         });
-        const newUser = await user.save()
+        try {
+            const newUser = await user.save()
         res.status(201).json({token:tokenJWT,
             user:user,
         reponse: "good"})
+        } catch (error) {
+            console.log(error)
+        }
+        
 } catch (error) {
-res.status(400).json({reponse: error.message})
+res.status(400).json({reponse: error})
 }
         
         // res.status(201).json({
