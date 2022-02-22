@@ -358,7 +358,7 @@ router.post ('/Social',multer,async (req,res) => {
         email: req.body.email
     })
 
-    if (req.file != null){
+    if (req.file){
         const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
         user.photoProfil = photoCloudinary.url
     }
