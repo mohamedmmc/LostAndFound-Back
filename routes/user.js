@@ -352,6 +352,8 @@ router.post ('/Social',multer,async (req,res) => {
     
     await User.init();
 
+    console.log(req.body)
+    console.log(req.file)
     
     const user = new User({
         nom: req.body.nom,
