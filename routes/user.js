@@ -279,8 +279,10 @@ router.post ('/',multer,async (req,res) => {
             }
             
         });
+        const tokenJWT = jwt.sign({username: req.body.email}, "SECRET")
+
         const newUser = await user.save()
-        res.status(201).json({token:token,
+        res.status(201).json({token:tokenJWT,
             user:user,
         reponse: "good"})
 } catch (error) {
