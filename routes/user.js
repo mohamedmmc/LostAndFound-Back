@@ -1287,6 +1287,26 @@ router.get('/confirmation/:email/:token', async (req, res, next) => {
 
 });
 
+router.post ('/apple',async (req,res) => {
+    
+    await User.init();
+
+    console.log(req.body)
+    
+    const user = new User({
+       ...req.body
+    })
+
+   try {
+    const newUser = await user.save()
+    res.status(201).json({user:user})
+
+   } catch (error) {
+    res.status(400).json({reponse: error.message})
+   }
+        
+})
+
 router.post('/forgotPassword',getUserByMail, (req, res, next) => {
 
         // user is not found into database
