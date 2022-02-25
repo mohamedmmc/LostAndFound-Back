@@ -23,7 +23,6 @@ router.post ('/',getReport,async (req,res) => {
                 user: req.body.user,
                 article: req.body.article
             })
-            console.log(newReport)
             const nami = await newReport.save()
             return res.json(nami)
         }else if (res.report.user.length == 5){
@@ -41,7 +40,7 @@ router.post ('/',getReport,async (req,res) => {
             try {
                 const nezupdatedQuestion = await res.report.save()
     
-            return res.json({message:nezupdatedQuestion})
+            return res.json({nezupdatedQuestion})
             } catch (error) {
                 console.log(error)
             }        }
