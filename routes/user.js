@@ -1575,6 +1575,7 @@ router.post('/resetPassword/:email/:token' ,async (req, res, next) => {
                     return res.status(401).send({ msg: 'We were unable to find a user for this verification. Please SignUp!' });
                 } else {
 
+                    
                     const salt = await Bcrypt.genSalt(10);
                     user.password = await Bcrypt.hash(req.body.Password, salt);
 
