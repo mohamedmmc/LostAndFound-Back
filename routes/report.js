@@ -25,9 +25,16 @@ router.post ('/',getReport,async (req,res) => {
             })
             const nami = await newReport.save()
             return res.json(nami)
-        }else if (res.report.user.length == 5){
+        }else if (res.report.user.length == 2){
             await res.report.remove()
-            return res.json({message:"spam"})
+            try {
+                const articleSupprime = await Article.findById(req.body.article)
+                await articleSupprime.remove()
+                return res.json({message:"spam"})
+
+            } catch (error) {
+                res.json(error)
+            }
 
         }else{
             for (i=0;i<res.report.user.length;i++){
