@@ -346,9 +346,39 @@ router.delete ('/:id',getUserById,async (req,res) => {
         res.json({erreur : error.message})
     }
 })
+///////////////////
+
+router.post ('/apple',async (req,res) => {
+    
+    await User.init();
+
+    console.log(req.body)
+    
+    const user = new User({
+       ...req.body
+    })
+
+   try {
+    const newUser = await user.save()
+    res.status(201).json({user:user})
+
+   } catch (error) {
+    res.status(400).json({reponse: error.message})
+   }
+        
+})
+        
+       
+
+
+   
 
 
 
+
+
+
+/////////////////////////////////////////////////
 //creating one Using Social Media
 router.post ('/Social',multer,async (req,res) => {
     
