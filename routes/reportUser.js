@@ -28,8 +28,15 @@ router.post ('/',getReport,async (req,res) => {
         }else if (res.report.user.length == 2){
             await res.report.remove()
             try {
-                const articleSupprime = await User.findById(req.body.article)
+                const articleSupprime = await User.findById(req.body.userReport)
                 await articleSupprime.remove()
+                const articles = await Article.find({ user: req.body.userReport });
+                console.log(articles)
+        
+               for (i=0; i<articles.length;i++){
+                    articles[i].remove()
+                    
+                }
                 return res.json({message:"spam"})
 
             } catch (error) {
