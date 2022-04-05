@@ -11,8 +11,8 @@ router.get ('/:id', async (req,res) => {
     try {
         var tableau = []
         var test 
-        const reponses = await Question.findOne({article:req.params.id}).populate('reponse')
-
+        const reponses = await Question.find({article:req.params.id}).populate('reponse')
+console.log("qqq");
         if(reponses.length == 0){
             res.json("no data")
 
