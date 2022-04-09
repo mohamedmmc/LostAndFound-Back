@@ -50,6 +50,8 @@ router.post('/', multer, async (req, res) => {
     if (req.file) {
         const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
         user.photoProfil = photoCloudinary.url
+    } else {
+        user.photoProfil = "https://res.cloudinary.com/dy05x9auh/image/upload/v1648226974/athlete_lxnnu3.png"
     }
     if (req.body.password != null) {
         const hashedPass = await Bcrypt.hash(req.body.password, 10)
