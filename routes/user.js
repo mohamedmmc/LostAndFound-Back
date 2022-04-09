@@ -37,7 +37,7 @@ router.get ('/:id',authentificateToken,getUserById,(req,res) => {
 //creating one
 router.post ('/',multer,async (req,res) => {
     await User.init();
-    const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
+
 
     const hashedPass = await Bcrypt.hash(req.body.password,10)
     const user = new User({
@@ -46,9 +46,13 @@ router.post ('/',multer,async (req,res) => {
         email: req.body.email,
         password: hashedPass,
         numt: req.body.numt,
-        photoProfil: photoCloudinary.url
+        
     })
 
+    if (req.file) {
+        const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
+        user.photoProfil= photoCloudinary.url
+    }
     
     try {
         var token = new Token({ email: user.email, token: crypto.randomBytes(16).toString('hex') });
