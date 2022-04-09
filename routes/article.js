@@ -9,12 +9,12 @@ router.get('/', async (req, res) => {
     try {
         const article = await Article.find().populate('user').populate('question')
         if (article.length > 0) {
-            res.json({
+            res.status(200).json({
                 articles: article
             })
         }
         else {
-            res.json({ message: "nothing to show" })
+            res.status(201).json({ message: "nothing to show" })
         }
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -39,7 +39,7 @@ router.post('/', multer, async (req, res) => {
     if (req.body.addresse == null) {
         console.log("req body pass empty");
         if (req.body.lat != null) {
-            
+
             article.addresse.push(req.body.lat)
             console.log(article.addresse);
             article.addresse.push(req.body.long)
