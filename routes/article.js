@@ -45,7 +45,7 @@ router.post('/', multer, async (req, res) => {
             article.addresse.push(req.body.long)
         }
     } else {
-        article.article = req.body.addresse
+        article.article.push(req.body.addresse) 
     }
     try {
         const newArticle = await article.save()
