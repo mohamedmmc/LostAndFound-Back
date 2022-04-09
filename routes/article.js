@@ -36,11 +36,16 @@ router.post('/', multer, async (req, res) => {
         photo: photoCloudinary.url,
         user: req.body.user
     })
-    if (req.body.addresse != null) {
+    if (req.body.addresse == null) {
+        console.log("req body pass empty");
         if (req.body.lat != null) {
-            article.addresse.push(req.params.lat)
-            article.addresse.push(req.params.long)
+            
+            article.addresse.push(req.body.lat)
+            console.log(article.addresse);
+            article.addresse.push(req.body.long)
         }
+    } else {
+        article.article = req.body.addresse
     }
     try {
         const newArticle = await article.save()
