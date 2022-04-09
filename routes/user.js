@@ -286,12 +286,12 @@ router.post('/', multer, async (req, res) => {
         try {
             smtpTrans.sendMail(mailOptions, function (err) {
                 if (err) {
-                    return res.status(500).send({ msg: err.message });
+                    console.log(err.message);
                 }
 
             });
         } catch (error) {
-            return res.status(500).send({ msg: err.message });
+            console.log("second one" + err.message);
         }
 
         const tokenJWT = jwt.sign({ username: req.body.email }, "SECRET")
