@@ -37,7 +37,7 @@ router.post('/', multer, async (req, res) => {
         user: req.body.user
     })
     if (req.body.addresse != null) {
-        if (req.params.lat != null) {
+        if (req.body.lat != null) {
             article.addresse.push(req.params.lat)
             article.addresse.push(req.params.long)
         }
