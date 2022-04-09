@@ -41,11 +41,14 @@ router.post('/', multer, async (req, res) => {
         if (req.body.lat != null) {
 
             article.addresse.push(req.body.lat)
-            console.log(article.addresse);
+
             article.addresse.push(req.body.long)
+            console.log(article.addresse);
         }
     } else {
-        article.article.push(req.body.addresse) 
+        console.log("hedhi requette jeya : " + req.body.addresse);
+        article.article = req.body.addresse
+        console.log("hedha article addresse : " + article.addresse);
     }
     try {
         const newArticle = await article.save()
