@@ -44,7 +44,6 @@ router.post('/', multer, async (req, res) => {
         nom: req.body.nom,
         prenom: req.body.prenom,
         email: req.body.email,
-        numt: req.body.numt,
 
     })
 
@@ -55,6 +54,7 @@ router.post('/', multer, async (req, res) => {
     if (req.body.password != null) {
         const hashedPass = await Bcrypt.hash(req.body.password, 10)
         user.password = hashedPass
+        user.numt = req.body.numt
     }
 
     try {
