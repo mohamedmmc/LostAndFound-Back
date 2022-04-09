@@ -1297,45 +1297,45 @@ function authentificateToken(req, res, next) {
     })
 
 }
-router.get('/confirmation/:email/:token', async (req, res, next) => {
-    Token.findOne({ token: req.params.token }, function (err, token) {
-        // token is not found into database i.e. token may have expired 
-        if (!token) {
-            return res.status(400).send({ msg: 'Your verification link may have expired. Please click on resend for verify your Email.' });
-        }
-        // if token is found then check valid user 
-        else {
-            User.findOne({ email: token.email, email: req.params.email }, function (err, user) {
-                // not valid user
-                if (!user) {
-                    return res.status(401).send({ msg: 'We were unable to find a user for this verification. Please SignUp!' });
-                }
-                // user is already verified
-                else if (user.isVerified) {
-                    console.log("no");
-                    return res.status(200).send({ msg: 'already verified plz login' });
-                }
-                // verify user
-                else {
-                    // change isVerified to true
-                    user.isVerified = true;
-                    user.save(function (err) {
-                        // error occur
-                        if (err) {
-                            return res.status(500).send({ msg: err.message });
-                        }
-                        // account successfully verified
-                        else {
-                            return res.status(200).send("test");
-                        }
-                    });
-                }
-            });
-        }
+// router.get('/confirmation/:email/:token', async (req, res, next) => {
+//     Token.findOne({ token: req.params.token }, function (err, token) {
+//         // token is not found into database i.e. token may have expired 
+//         if (!token) {
+//             return res.status(400).send({ msg: 'Your verification link may have expired. Please click on resend for verify your Email.' });
+//         }
+//         // if token is found then check valid user 
+//         else {
+//             User.findOne({ email: token.email, email: req.params.email }, function (err, user) {
+//                 // not valid user
+//                 if (!user) {
+//                     return res.status(401).send({ msg: 'We were unable to find a user for this verification. Please SignUp!' });
+//                 }
+//                 // user is already verified
+//                 else if (user.isVerified) {
+//                     console.log("no");
+//                     return res.status(200).send({ msg: 'already verified plz login' });
+//                 }
+//                 // verify user
+//                 else {
+//                     // change isVerified to true
+//                     user.isVerified = true;
+//                     user.save(function (err) {
+//                         // error occur
+//                         if (err) {
+//                             return res.status(500).send({ msg: err.message });
+//                         }
+//                         // account successfully verified
+//                         else {
+//                             return res.status(200).send("test");
+//                         }
+//                     });
+//                 }
+//             });
+//         }
 
-    });
+//     });
 
-});
+// });
 
 router.post('/apple', async (req, res) => {
 
