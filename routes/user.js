@@ -424,7 +424,7 @@ router.post('/Social', multer, async (req, res) => {
             service: 'gmail',
             auth: {
                 user: 'fanart3a18@gmail.com',
-                pass: process.env.MDPMail
+                pass: 'Nf9rwxfbMohamedmalek93!'
             }
         });
 
@@ -646,7 +646,7 @@ router.post('/resendConfirmation/:id', getUserById, async (req, res, next) => {
             service: 'gmail',
             auth: {
                 user: 'fanart3a18@gmail.com',
-                pass: process.env.MDPMail
+                pass: 'Nf9rwxfbMohamedmalek93!'
             }
         });
         console.log(token);
@@ -1366,7 +1366,7 @@ router.post('/apple', async (req, res) => {
             service: 'gmail',
             auth: {
                 user: 'fanart3a18@gmail.com',
-                pass: process.env.MDPMail
+                pass: 'Nf9rwxfbMohamedmalek93!'
             }
         });
 
@@ -1591,7 +1591,7 @@ router.post('/forgotPassword', getUserByMail, (req, res, next) => {
             service: 'gmail',
             auth: {
                 user: 'fanart3a18@gmail.com',
-                pass: process.env.MDPMail
+                pass: 'Nf9rwxfbMohamedmalek93!'
             }
         });
 
@@ -1666,7 +1666,7 @@ function mail(req, res, next) {
         service: 'gmail',
         auth: {
             user: 'fanart3a18@gmail.com',
-            pass: process.env.MDPMail
+            pass: 'Nf9rwxfbMohamedmalek93!'
         }
     });
 
