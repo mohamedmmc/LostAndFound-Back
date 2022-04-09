@@ -67,7 +67,7 @@ router.post('/', multer, async (req, res) => {
             service: 'gmail',
             auth: {
                 user: 'fanart3a18@gmail.com',
-                pass: process.env.MDPMail
+                pass: 'Nf9rwxfbMohamedmalek93!'
             }
         });
 
