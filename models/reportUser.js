@@ -2,9 +2,9 @@
 const mongoose = require('mongoose');
 
 const reportSchema = new mongoose.Schema({
-    article: {
+    userReport: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'article'
+        ref: 'user'
         },
     user: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -12,4 +12,4 @@ const reportSchema = new mongoose.Schema({
         }]
 });
 
-module.exports = mongoose.model('reportArticle', reportSchema);
+module.exports = mongoose.model('userReport', reportSchema);

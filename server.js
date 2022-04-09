@@ -60,6 +60,10 @@ app.use('/user',userRoute)
 const reportRoute = require('./routes/report')
 app.use('/report',reportRoute)
 
+
+const reportUserRoute = require('./routes/reportUser')
+app.use('/reportUser',reportUserRoute)
+
 const articleRoute = require('./routes/article')
 app.use('/article',articleRoute)
 
