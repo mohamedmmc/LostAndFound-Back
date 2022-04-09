@@ -31,23 +31,26 @@ router.post('/', multer, async (req, res) => {
     const article = new Article({
         nom: req.body.nom,
         description: req.body.description,
-
+        addresse: req.body.addresse,
         type: req.body.type,
         photo: photoCloudinary.url,
         user: req.body.user
     })
+
     if (req.body.addresse == null) {
         console.log("req body pass empty");
         if (req.body.lat != null) {
 
             article.addresse.push(req.body.lat)
-
             article.addresse.push(req.body.long)
             console.log(article.addresse);
         }
     } else {
-        console.log("hedhi requette jeya : " + req.body.addresse);
-        article.article = req.body.addresse
+        let latlong = []
+        latlong.push(req.body.addresse[0])
+        latlong.push(req.body.addresse[1])
+        console.log("hedhi requette jeya : " + latlong);
+        article.article = latlong
         console.log("hedha article addresse : " + article.addresse);
     }
     try {
