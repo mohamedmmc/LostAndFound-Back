@@ -43,13 +43,21 @@ router.post ('/',multer,async (req,res) => {
     const user = new User({
         nom: req.body.nom,
         prenom: req.body.prenom,
-        email: req.body.email,
-        password: hashedPass,
-        numt: req.body.numt,
-        photoProfil: photoCloudinary.url
+        email: req.body.email
     })
 
-    
+
+    if (req.file) {
+        const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
+        user.photoProfil = photoCloudinary.url
+    } else {
+        user.photoProfil = "https://res.cloudinary.com/dy05x9auh/image/upload/v1648226974/athlete_lxnnu3.png"
+    }
+    if (req.body.password != null) {
+        const hashedPass = await Bcrypt.hash(req.body.password, 10)
+        user.password = hashedPass
+        user.numt = req.body.numt
+    }
     try {
         var token = new Token({ email: user.email, token: crypto.randomBytes(16).toString('hex') });
         await token.save();
