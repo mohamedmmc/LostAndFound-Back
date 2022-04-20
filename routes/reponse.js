@@ -7,11 +7,11 @@ const Reponse = require('../models/reponse')
 const Question = require('../models/question')
 const Article = require('../models/article')
 //getting all
-router.get('/', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         var tableau = []
         var test
-        const reponses = await Question.find().populate('reponse')
+        const reponses = await Question.find({ article: req.params.id }).populate('reponse')
         console.log("qqq");
         if (reponses.length == 0) {
             res.json("no data")
