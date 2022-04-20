@@ -1,50 +1,52 @@
 const express = require('express')
 const router = express.Router()
 const reponse = require('../models/reponse')
-const multer = require ('../middleware/multer-config')
+const multer = require('../middleware/multer-config')
 const cloudinary = require("../middleware/cloudinary")
 const Reponse = require('../models/reponse')
 const Question = require('../models/question')
 const Article = require('../models/article')
 //getting all
-router.get ('/:id', async (req,res) => {
+router.get('/', async (req, res) => {
     try {
         var tableau = []
-        var test 
-        const reponses = await Question.find({article:req.params.id}).populate('reponse')
-console.log("qqq");
-        if(reponses.length == 0){
+        var test
+        const reponses = await Question.find().populate('reponse')
+        console.log("qqq");
+        if (reponses.length == 0) {
             res.json("no data")
 
         }
-        else
-        {
-            for (i=0; i<reponses.reponse.length;i++){
+        else {
+            for (i = 0; i < reponses.reponse.length; i++) {
                 test = await Reponse.findById(reponses.reponse[i].id).populate('user')
                 tableau.push(test)
             }
-            res.json({reponses:tableau})
+            res.json({ reponses: tableau })
         }
-        
+
     } catch (error) {
-        res.status(500).json({message: error.message})
+        res.status(500).json({ message: error.message })
     }
-}) 
+})
 
 
 //getting one
-router.get ('/:id',getreponse,(req,res) => {
+router.get('/:id', getreponse, (req, res) => {
     res.send(res.reponse.nom)
 })
 //creating one
-router.post ('/:id',getQuestion,async (req,res) => {
+router.post('/:id', getQuestion, async (req, res) => {
     const reponse = new Reponse({
         description: req.body.description,
         user: req.body.user
-        })
+    })
+
+
     try {
+
         const newReponse = await reponse.save()
-        res.question["reponse"].push(reponse) 
+        res.question["reponse"].push(reponse)
 
         const updatedQuestion = new Question(
             res.question
@@ -52,99 +54,99 @@ router.post ('/:id',getQuestion,async (req,res) => {
         try {
             const nezupdatedQuestion = await updatedQuestion.save()
 
-        res.json({question:nezupdatedQuestion})
+            res.json({ question: nezupdatedQuestion })
         } catch (error) {
             console.log(error)
         }
-        
-    
+
+
 
     } catch (error) {
-        res.status(400).json({message: error.message})
+        res.status(400).json({ message: error.message })
     }
 })
 
 
-async function getQuestion (req,res,next){
+async function getQuestion(req, res, next) {
     let question
     try {
         question = await Question.findById(req.params.id)
-        if (question == null){
-            return res.status(404).json({message : "question non trouve"})
+        if (question == null) {
+            return res.status(404).json({ message: "question non trouve" })
         }
     } catch (error) {
-        return res.status(500).json({message: error.message})
+        return res.status(500).json({ message: error.message })
     }
     res.question = question
     next()
 }
 //updating one
-router.patch ('/:id',getreponse,multer,async (req,res) => {
-    if (req.body.nom != null){
+router.patch('/:id', getreponse, multer, async (req, res) => {
+    if (req.body.nom != null) {
         res.reponse.nom = req.body.nom
     }
-    if (req.body.description != null){
+    if (req.body.description != null) {
         res.reponse.description = req.body.description
     }
-    if (req.body.addresse != null){
+    if (req.body.addresse != null) {
         res.reponse.addresse = req.body.addresse
     }
-    if (req.file.filename != null){
+    if (req.file.filename != null) {
         const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
-        res.reponse.photo =  photoCloudinary.url
+        res.reponse.photo = photoCloudinary.url
     }
     try {
         const updatedreponse = await res.reponse.save()
         const newnewreponse = await reponse.findById(updatedreponse.id).populate('user')
         res.json(newnewreponse)
     } catch (error) {
-        res.status(400).json({message : error.message})
+        res.status(400).json({ message: error.message })
     }
 })
 //deleting one
-router.delete ('/:id',getreponse,async (req,res) => {
+router.delete('/:id', getreponse, async (req, res) => {
     try {
-        const QuestionAvecReponse = await Question.findOne({reponse:res.reponse})
-        const ArticleAvecReponse = await Article.findOne({question:QuestionAvecReponse.id}).populate('question')
+        const QuestionAvecReponse = await Question.findOne({ reponse: res.reponse })
+        const ArticleAvecReponse = await Article.findOne({ question: QuestionAvecReponse.id }).populate('question')
 
-        for (i=0; i< QuestionAvecReponse.reponse.length ; i++){            
-            if (QuestionAvecReponse.reponse[i] == req.params.id){
-                for (j=0;j<ArticleAvecReponse.question.reponse.length;j++){
-                  if (ArticleAvecReponse.question.reponse[j] == req.params.id){
+        for (i = 0; i < QuestionAvecReponse.reponse.length; i++) {
+            if (QuestionAvecReponse.reponse[i] == req.params.id) {
+                for (j = 0; j < ArticleAvecReponse.question.reponse.length; j++) {
+                    if (ArticleAvecReponse.question.reponse[j] == req.params.id) {
 
 
-                      console.log("ce qu'on va supprimer : " + ArticleAvecReponse.question.reponse[j])
-                      console.log("tableau toulou : " + ArticleAvecReponse.question.reponse.length)
-                      console.log("index : "  + j)
+                        console.log("ce qu'on va supprimer : " + ArticleAvecReponse.question.reponse[j])
+                        console.log("tableau toulou : " + ArticleAvecReponse.question.reponse.length)
+                        console.log("index : " + j)
 
-                     ArticleAvecReponse.question.reponse.splice(j,1)
-                     await ArticleAvecReponse.save()
-                     await QuestionAvecReponse.reponse.splice(i,1)
-                     await QuestionAvecReponse.save()
-                    //  await res.reponse.remove()
-                  }
+                        ArticleAvecReponse.question.reponse.splice(j, 1)
+                        await ArticleAvecReponse.save()
+                        await QuestionAvecReponse.reponse.splice(i, 1)
+                        await QuestionAvecReponse.save()
+                        //  await res.reponse.remove()
+                    }
                 }
-                 
-                
-                return res.json({message : "on supprime"})
+
+
+                return res.json({ message: "on supprime" })
             }
         }
-        
+
     } catch (error) {
-        res.json({message : error.message})
+        res.json({ message: error.message })
     }
 })
 
 
-async function getreponse(req,res,next){
+async function getreponse(req, res, next) {
     let reponse
     try {
         reponse = await Reponse.findById(req.params.id)
-        if (reponse == null){
-            return res.status(404).json({message : "reponse non trouve"})
+        if (reponse == null) {
+            return res.status(404).json({ message: "reponse non trouve" })
         }
     } catch (error) {
-        return res.status(500).json({message: error.message})
+        return res.status(500).json({ message: error.message })
     }
     res.reponse = reponse
     next()
