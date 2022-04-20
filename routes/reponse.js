@@ -12,15 +12,17 @@ router.get('/:id', async (req, res) => {
         var tableau = []
         var test
         const reponses = await Question.find({ article: req.params.id }).populate('reponse')
-        console.log("qqq");
         if (reponses.length == 0) {
             res.json("no data")
 
         }
         else {
-            for (i = 0; i < reponses.reponse.length; i++) {
-                test = await Reponse.findById(reponses.reponse[i].id).populate('user')
-                tableau.push(test)
+            for (i = 0; i < reponses.length; i++) {
+                for (j = 0; j < reponses[i].reponse.length; j++){
+                    test = await Reponse.findById(reponses[i].reponse[j].id).populate('user')
+                    tableau.push(test)
+                }
+                
             }
             res.json({ reponses: tableau })
         }
@@ -31,10 +33,10 @@ router.get('/:id', async (req, res) => {
 })
 
 
-//getting one
-router.get('/:id', getreponse, (req, res) => {
-    res.send(res.reponse.nom)
-})
+// //getting one
+// router.get('/:id', getreponse, (req, res) => {
+//     res.send(res.reponse.nom)
+// })
 //creating one
 router.post('/:id', getQuestion, async (req, res) => {
     const reponse = new Reponse({
