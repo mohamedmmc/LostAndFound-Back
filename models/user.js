@@ -9,25 +9,28 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         unique: true,
-        required:true,
+        required: true,
         type: String,
         match: /.+\@.+\..+/
-        
+
     },
     password: {
         type: String
     },
-    numt:{
-        required:false,
+    numt: {
+        required: false,
         maxlength: 12,
         type: String
     },
-    photoProfil:{
+    photoProfil: {
         type: String,
         required: false
     },
     isVerified: {
         type: Boolean, default: false
+    },
+    tokenfb: {
+        type: String
     }/*,
     ratings:{
         type: mongoose.Mixed, 
@@ -37,7 +40,7 @@ const userSchema = new mongoose.Schema({
         4: Number,
         5: Number,
     default: {1:1, 2:1, 3:1, 4:1, 5:1}}*/
-    
+
 })
 
-module.exports = mongoose.model('user',userSchema)
+module.exports = mongoose.model('user', userSchema)

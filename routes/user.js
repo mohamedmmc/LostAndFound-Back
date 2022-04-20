@@ -14,7 +14,46 @@ const Article = require('../models/article')
 const bcryptjs = require('bcryptjs')
 const article = require('../models/article')
 
+var FCM = require('fcm-node');
+var serverKey = 'AAAA6Ew3Upg:APA91bEjVxeflRiO5xEidBaqSDURSjZYI0HFa42ic_A8sRqh68NBCfhd-BvCFR8CqVbQpxUJGAp5QQ8tiMTZ2OlMToKih413vryZ1nen8S8gBwOZ80yP6KRINtDmLzbgg78eDxbgoPHY';
+var fcm = new FCM(serverKey);
 
+
+
+
+router.post('/notif', async (req, res) => {
+
+    var title = ""
+    var body = req.body.nom + " vous a envoyé un message"
+    if (req.body.type == "reponse") {
+        title = "Réponses à vos questions !"
+    } else {
+        title = "Nouveau message reçu !"
+    }
+
+    var message = {
+        to: req.body.tokenfb,
+        notification: {
+            title: title,
+            body: body,
+        }
+    };
+
+    console.log(req)
+    fcm.send(message, function (err, response) {
+        if (err) {
+            res.json(err)
+
+        } else {
+            // showToast("Successfully sent with response");
+            const user = new User({
+                nom: req.body.nom,
+            })
+            res.json(user)
+        }
+
+    });
+})
 
 router.get('/', async (req, res) => {
     try {
@@ -54,6 +93,9 @@ router.post('/', multer, async (req, res) => {
         const hashedPass = await Bcrypt.hash(req.body.password, 10)
         user.password = hashedPass
         user.numt = req.body.numt
+    }
+    if (req.body.tokenfb != null) {
+        user.tokenfb = req.body.tokenfb
     }
     try {
         var token = new Token({ email: user.email, token: crypto.randomBytes(16).toString('hex') });
@@ -379,15 +421,6 @@ router.post('/apple', async (req, res) => {
 })
 
 
-
-
-
-
-
-
-
-
-
 /////////////////////////////////////////////////
 //creating one Using Social Media
 router.post('/Social', multer, async (req, res) => {
@@ -399,7 +432,9 @@ router.post('/Social', multer, async (req, res) => {
         prenom: req.body.prenom,
         email: req.body.email
     })
-
+    if (req.body.tokenfb != null) {
+        user.tokenfb = req.body.tokenfb
+    }
     if (req.file) {
         const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
         user.photoProfil = photoCloudinary.url
@@ -1635,7 +1670,7 @@ router.post('/resetPassword/:email/:token', async (req, res, next) => {
                     user.save(function (err) {
                         // error occur
                         if (err) {
-                            return res.status(500).send({ msg: err.message });
+                            return res.status(500).send({ msg: err });
                         }
                         // account successfully verified
                         else {
