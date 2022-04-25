@@ -41,7 +41,7 @@ router.get('/:id', async (req, res) => {
 router.post('/:id', getQuestion, async (req, res) => {
     const reponse = new Reponse({
         description: req.body.description,
-        user: req.body.user
+        user: req.body.userr
     })
 
 
