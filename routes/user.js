@@ -39,7 +39,7 @@ router.post('/notif', async (req, res) => {
         }
     };
 
-    console.log(req)
+    
     fcm.send(message, function (err, response) {
         if (err) {
             res.json(err)
