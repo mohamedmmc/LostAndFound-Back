@@ -42,14 +42,14 @@ router.post('/notif', async (req, res) => {
 
     fcm.send(message, function (err, response) {
         if (err) {
-            res.json(err)
+            res.status(500).json(err)
 
         } else {
             // showToast("Successfully sent with response");
             const user = new User({
                 nom: req.body.nom,
             })
-            res.json(user)
+            res.status(200).json(user)
         }
 
     });
