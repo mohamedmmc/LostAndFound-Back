@@ -39,7 +39,7 @@ router.post('/notif', async (req, res) => {
         }
     };
 
-    
+
     fcm.send(message, function (err, response) {
         if (err) {
             res.json(err)
@@ -82,6 +82,8 @@ router.post('/', multer, async (req, res) => {
         prenom: req.body.prenom,
         email: req.body.email
     })
+
+
 
     if (req.file) {
         const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
@@ -1241,6 +1243,11 @@ router.post('/login', getUserByMail, async (req, res) => {
         if (await Bcrypt.compare(req.body.password, res.user.password)) {
             const token = jwt.sign({ username: res.user.email }, "SECRET")
             if (token) {
+                if (req.body.tokenfb != null) {
+                    res.user.tokenfb = req.body.tokenfb
+                    await res.user.save()
+
+                }
                 res.json({
                     token: token,
                     user: res.user,
@@ -1270,6 +1277,11 @@ router.post('/Auth', getUserByMail, async (req, res) => {
     try {
         const token = jwt.sign({ username: res.user.email }, "SECRET")
         if (token) {
+            if (req.body.tokenfb != null) {
+                res.user.tokenfb = req.body.tokenfb
+                await res.user.save()
+
+            }
             res.json({
                 token: token,
                 user: res.user,
