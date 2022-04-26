@@ -3,6 +3,7 @@ const router = express.Router()
 const Article = require('../models/article')
 const multer = require('../middleware/multer-config')
 const cloudinary = require("../middleware/cloudinary")
+const Question = require('../models/question')
 
 //getting all
 router.get('/', async (req, res) => {
@@ -87,6 +88,14 @@ router.patch('/:id', getArticle, multer, async (req, res) => {
 //deleting one
 router.delete('/:id', getArticle, async (req, res) => {
     try {
+        const question = await Question.find({ article: res.article.id }).populate('reponse')
+        for (i = 0; i < question.length; i++) {
+            for (j = 0; j < question[i].reponse.length; j++){
+                question[i].reponse[j].remove()
+            }
+            question[i].remove()
+
+        }
         await res.article.remove()
         res.json({ message: "Supprime avec succes" })
     } catch (error) {
