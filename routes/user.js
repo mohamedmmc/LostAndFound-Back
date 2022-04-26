@@ -19,7 +19,12 @@ var serverKey = 'AAAA6Ew3Upg:APA91bEjVxeflRiO5xEidBaqSDURSjZYI0HFa42ic_A8sRqh68N
 var fcm = new FCM(serverKey);
 
 
+router.post('/updateTokenFb/{id}', getUserById, async (req, res) => {
+    res.user.tokenfb = req.body.tokenfb
+    await res.user.save()
+    return res.status(200).json(res.user)
 
+})
 
 router.post('/notif', async (req, res) => {
 
