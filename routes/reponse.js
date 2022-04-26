@@ -18,11 +18,11 @@ router.get('/:id', async (req, res) => {
         }
         else {
             for (i = 0; i < reponses.length; i++) {
-                for (j = 0; j < reponses[i].reponse.length; j++){
+                for (j = 0; j < reponses[i].reponse.length; j++) {
                     test = await Reponse.findById(reponses[i].reponse[j].id).populate('user')
                     tableau.push(test)
                 }
-                
+
             }
             res.json({ reponses: tableau })
         }
