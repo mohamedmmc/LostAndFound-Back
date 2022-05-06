@@ -30,13 +30,13 @@ router.post('/', getReport, async (req, res) => {
         try {
             const articleSupprime = await Article.findById(req.body.article)
             await articleSupprime.remove()
-            return res.status(200).json({ message: "spam" })
+            return res.status(300).json({ message: "spam" })
         } catch (error) {
             res.json(error)
         }
     } else {
         for (i = 0; i < res.report.user.length; i++) {
-            if (res.report.user[i] == req.body.user) {
+            if (res.report.user[i].id == req.body.user) {
                 return res.status(400).json({ message: "same user" })
             }
         }

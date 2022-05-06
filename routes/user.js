@@ -1682,7 +1682,7 @@ router.post('/resetPassword/:email/:token', async (req, res, next) => {
 
 
                     const salt = await Bcrypt.genSalt(10);
-                    user.password = await Bcrypt.hash(req.body.Password, salt);
+                    user.password = await Bcrypt.hash(req.body.password, salt);
 
                     user.save(function (err) {
                         // error occur
