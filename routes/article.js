@@ -70,6 +70,7 @@ router.patch('/:id', getArticle, multer, async (req, res) => {
     if (req.body.description != null) {
         res.article.description = req.body.description
     }
+    console.log(req.body.addresse);
     if (req.body.addresse != null) {
         res.article.addresse = req.body.addresse
     }

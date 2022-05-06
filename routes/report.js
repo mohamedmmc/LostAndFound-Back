@@ -35,11 +35,8 @@ router.post('/', getReport, async (req, res) => {
             res.json(error)
         }
     } else {
-        console.log(req.body.user);
         for (i = 0; i < res.report.user.length; i++) {
-            
-            console.log(res.report.user[i].id);
-            if (res.report.user[i].id == req.body.user) {
+            if (res.report.user[i] == req.body.user) {
                 return res.status(400).json({ message: "same user" })
             }
         }
