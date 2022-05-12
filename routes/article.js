@@ -7,9 +7,15 @@ const Question = require('../models/question')
 
 //getting all
 router.get('/', async (req, res) => {
+    let articleAA = []
     try {
         const article = await Article.find().populate('user').populate('question')
-        if (article.length > 0 && article.user != null) {
+        if (article.length > 0) {
+            for (i = 0; i < article.length; i++){
+                if (article[i].user != null) {
+                    articleAA.push(article[i])
+                }
+            }
             res.status(200).json({
                 articles: article
             })
