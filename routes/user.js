@@ -75,7 +75,7 @@ router.get('/', async (req, res) => {
 
 //getting one
 
-router.get('/findUser/:id', (req, res) => {
+router.get('/findUser/:id', async (req, res) => {
     const tokenfb = await User.findById(req.params.id)
     if (tokenfb) {
         return res.status(200).json(tokenfb.tokenfb)
