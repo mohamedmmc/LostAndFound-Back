@@ -117,11 +117,9 @@ router.get('/myArticles/:id', getArticlesByUser, async (req, res) => {
                 articlesAA.push(res.articles[i])
             }
         }
-        res.status(200).json({
-            articles: articlesAA
-        })
+      
     }
-    res.json({ articles: res.articles })
+    res.json({ articles: articlesAA })
 })
 
 async function getArticle(req, res, next) {
