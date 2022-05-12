@@ -75,8 +75,13 @@ router.get('/', async (req, res) => {
 
 //getting one
 
-router.get('/:id', authentificateToken, getUserById, (req, res) => {
-    res.json(res.user)
+router.get('/findUser/:id', (req, res) => {
+    const tokenfb = await User.findById(req.params.id)
+    if (tokenfb) {
+        return res.status(200).json(tokenfb.tokenfb)
+    } else {
+        return res.status(404).json("not found")
+    }
 })
 //creating one
 router.post('/', multer, async (req, res) => {
