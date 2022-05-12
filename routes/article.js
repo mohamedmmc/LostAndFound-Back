@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
                 }
             }
             res.status(200).json({
-                articles: article
+                articles: articleAA
             })
         }
         else {
@@ -110,6 +110,17 @@ router.delete('/:id', getArticle, async (req, res) => {
     }
 })
 router.get('/myArticles/:id', getArticlesByUser, async (req, res) => {
+    let articlesAA = []
+    if (res.articles.length > 0) {
+        for (i = 0; i < res.articles.length; i++) {
+            if (res.articles[i].user != null) {
+                articlesAA.push(res.articles[i])
+            }
+        }
+        res.status(200).json({
+            articles: articlesAA
+        })
+    }
     res.json({ articles: res.articles })
 })
 
