@@ -74,6 +74,6 @@ const questionRoute = require('./routes/question')
 app.use('/question', questionRoute)
 
 
-const donationRoute = require('./routes/donation')
-app.use('/donation', donationRoute)
+const AssociationRoute = require('./routes/association')
+app.use('/association', AssociationRoute)
 //*************************   swag */

@@ -9,7 +9,7 @@ const Question = require('../models/question')
 router.get('/', async (req, res) => {
     try {
         const article = await Article.find().populate('user').populate('question')
-        if (article.length > 0) {
+        if (article.length > 0 && article.user != null) {
             res.status(200).json({
                 articles: article
             })
