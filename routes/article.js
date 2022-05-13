@@ -4,7 +4,7 @@ const Article = require('../models/article')
 const multer = require('../middleware/multer-config')
 const cloudinary = require("../middleware/cloudinary")
 const Question = require('../models/question')
-
+const Association = require('../models/association')
 //getting all
 router.get('/', async (req, res) => {
     let articleAA = []
@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
         const article = await Article.find().populate('user').populate('question')
         if (article.length > 0) {
             for (i = 0; i < article.length; i++){
-                if (article[i].user != null) {
+                if (article[i].association == null) {
                     articleAA.push(article[i])
                 }
             }
@@ -109,11 +109,15 @@ router.delete('/:id', getArticle, async (req, res) => {
         res.json({ message: error.message })
     }
 })
+
+
+
+
 router.get('/myArticles/:id', getArticlesByUser, async (req, res) => {
     let articlesAA = []
     if (res.articles.length > 0) {
         for (i = 0; i < res.articles.length; i++) {
-            if (res.articles[i].user != null) {
+            if (res.articles[i].user != null && res.articles[i].association == null) {
                 articlesAA.push(res.articles[i])
             }
         }
@@ -150,4 +154,7 @@ async function getArticlesByUser(req, res, next) {
     res.articles = articles
     next()
 }
+
+
+
 module.exports = router
