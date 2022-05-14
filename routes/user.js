@@ -373,7 +373,7 @@ router.patch('/:id', getUserById, multer, async (req, res) => {
          res.user.password =  hashed
      }*/
 
-    if (req.file.filename != null) {
+    if (req.file != null) {
         const photoCloudinary = await cloudinary.uploader.upload(req.file.path)
         res.user.photoProfil = photoCloudinary.url
     }
