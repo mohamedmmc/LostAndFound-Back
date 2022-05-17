@@ -56,6 +56,10 @@ app.use('/upload', express.static(path.join(__dirname, 'upload')))
 const userRoute = require('./routes/user')
 app.use('/user', userRoute)
 
+app.use(express.static("public"));
+
+const Route = require('./routes/Welcome')
+app.use('/', Route)
 
 const reportRoute = require('./routes/report')
 app.use('/report', reportRoute)
