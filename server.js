@@ -58,7 +58,7 @@ app.use('/user', userRoute)
 
 app.use(express.static("public"));
 
-const Route = require('./routes/Welcome')
+const Route = require('./routes/welcome')
 app.use('/', Route)
 
 const reportRoute = require('./routes/report')
