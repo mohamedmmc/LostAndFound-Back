@@ -1,54 +1,87 @@
-# LostAndFound-Back
-Mini Projet IOS
-This project is a mobile application project designed for everybody which provides the easiest way to make searchs for public services.
-This application lets the user create an account, search for a lost item and even pay the one who provides the service online. Our application does also create the ability to add a found item and also to put all lost object withing 6 months to donations for question.
-Our application is name Lost & Found and is developped in Swift for The client and in node.js for the backend part with mongoDB as database  
+<div align="center">
 
+# Lost & Found
 
+**Multi-platform app to report and find lost objects — published on iOS, Android & Huawei AppGallery**
 
-<p align="center">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/320px-Node.js_logo.svg.png">
-<img src= "https://cdn.icon-icons.com/icons2/2415/PNG/512/mongodb_original_wordmark_logo_icon_146425.png" width="300" height="300">
-</p>
+[![Swift](https://img.shields.io/badge/iOS-Swift%205-FA7343?style=for-the-badge&logo=swift&logoColor=white)](https://developer.apple.com/swift/)
+[![Kotlin](https://img.shields.io/badge/Android-Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org)
+[![Node.js](https://img.shields.io/badge/Backend-Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
 
-<h1 align="center"><project-name></h1>
+<br/>
 
-<p align="center"><project-description></p>
+[![App Store](https://img.shields.io/badge/App%20Store-Published-0D96F6?style=flat-square&logo=apple&logoColor=white)](./)
+[![Google Play](https://img.shields.io/badge/Google%20Play-Published-3DDC84?style=flat-square&logo=googleplay&logoColor=white)](./)
+[![Huawei](https://img.shields.io/badge/Huawei%20AppGallery-Published-CF0A2C?style=flat-square&logo=huawei&logoColor=white)](./)
 
-## Links
-- Swagger http://lost-and-found-back.herokuapp.com/api-docs/#/
-- [Node js] (https://nodejs.org/en/download/)
+</div>
 
-## Available Commands
+---
 
-In the project directory, you can run:
+## 📖 About
 
-### npm install" : "npm install express": "npm start",
+Lost & Found helps users **report lost or found objects** and connect them with their owners. The app features a security verification system and a charitable donation option for unclaimed items.
 
-The app is built using JavaScript. Open [http://localhost:3000](http://localhost:3000) to test APIs with POSTMAN. You also need to run the server file as well to completely run the app. The page will reload if you make edits.
-You will also see any lint errors in the console.
-/user is the path to get all users
-/user/id is the path to check the user with the id passed in parameters 
-### "npm run build":,
+Published across **3 platforms** — iOS (App Store), Android (Google Play) and Huawei AppGallery.
 
-Builds the app for production to the build folder. It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes. Your app will be ready to deploy!
+---
 
-### "npm run test":,
+## 🏗️ Architecture
 
-Launches the test runner in the interactive watch mode.
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <h3>📱 iOS App</h3>
+      <p>Native <strong>Swift</strong> app with UIKit & SwiftUI</p>
+    </td>
+    <td align="center" width="33%">
+      <h3>🤖 Android App</h3>
+      <p>Native <strong>Kotlin</strong> app — Google Play & Huawei AppGallery</p>
+    </td>
+    <td align="center" width="33%">
+      <h3>⚡ Backend API</h3>
+      <p><strong>Node.js</strong> REST API shared across platforms</p>
+    </td>
+  </tr>
+</table>
 
-### "npm run dev": "concurrently "nodemon server" "npm run start",
+---
 
-For running the server and app together I am using concurrently this helps a lot in the MERN application as it runs both the server (client and server) concurrently. So you can work on them both together.
+## ✨ Key Features
 
-### "serve": "node server"
+- **📢 Report** — Declare a lost or found item with photos & location
+- **🔍 Search** — Filter by category, location, date
+- **📍 Geolocation** — Find nearby lost/found items on a map
+- **🔐 Security** — Secret question system to verify the real owner
+- **❤️ Charity** — Donate unclaimed items to charity after 6 months
+- **💳 Payment** — Online payment for finder reward
 
-For running the server file on you can use this command.
+---
 
-### npm run serve
+## 🛠️ Stack
 
-## Built With
+| Layer | Technology |
+|---|---|
+| iOS | Swift 5, UIKit, SwiftUI |
+| Android | Kotlin |
+| Backend | Node.js, Express |
+| Database | MySQL |
+| Auth | JWT |
 
-- JavaScript
-- Node Express
-- NPM
+---
+
+## 📁 Repositories
+
+| Repo | Platform |
+|---|---|
+| [LostAndFound](https://github.com/mohamedmmc/LostAndFound) | iOS (Swift) |
+| [LostAndFound-Android](https://github.com/mohamedmmc/LostAndFound-Android) | Android (Kotlin) |
+| [LostAndFound-Back](https://github.com/mohamedmmc/LostAndFound-Back) | Backend (Node.js) |
+
+---
+
+<div align="center">
+
+Built by **[Mohamed Melek Chtourou](https://mohamedmelekchtourou.com)**
+
+</div>
